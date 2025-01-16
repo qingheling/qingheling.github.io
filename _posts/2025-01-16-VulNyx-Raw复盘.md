@@ -94,61 +94,61 @@ Nmap done: 1 IP address (1 host up) scanned in 17.13 seconds
 
 ## 这里去hacktricks查询对应的相关内容
 
->![image-20250116122456131](D:\MyBlog\assets\images\image-20250116122456131.png)
+>![image-20250116122456131](../assets/images/image-20250116122456131.png)
 >
->![image-20250116122558076](D:\MyBlog\assets\images\image-20250116122558076.png)
+>![image-20250116122558076](../assets/images/image-20250116122558076.png)
 >
 >这里需要利用关于snmp爆破的工具去查找对应的snmp的特征
 >
 >这里利用的工具是onesixtyone，使用kali的朋友这个是自带的不用安装目录选择snmp对应目录即可
 >
->![image-20250116123203373](D:\MyBlog\assets\images\image-20250116123203373.png)
+>![image-20250116123203373](../assets/images/image-20250116123203373.png)
 
 ## 利用特征去snmp查询对应的内容
 
->![image-20250116123345303](D:\MyBlog\assets\images\image-20250116123345303.png)
+>![image-20250116123345303](../assets/images/image-20250116123345303.png)
 >
->![image-20250116123458280](D:\MyBlog\assets\images\image-20250116123458280.png)
+>![image-20250116123458280](../assets/images/image-20250116123458280.png)
 >
 >这里出现很多的snmp的相关内容我们需要利用正则过滤一下并且找到对应服务
 >
->![image-20250116123839265](D:\MyBlog\assets\images\image-20250116123839265.png)
+>![image-20250116123839265](../assets/images/image-20250116123839265.png)
 >
 >正常我选择过滤一下域名，用户名称或者密码等，这里发现获取关键信息目录，用户 hashes，这里需要说明一下不用官方的crackmapexec
 >
->![image-20250116125426547](D:\MyBlog\assets\images\image-20250116125426547.png)
+>![image-20250116125426547](../assets/images/image-20250116125426547.png)
 >
->![image-20250116125449145](D:\MyBlog\assets\images\image-20250116125449145.png)
+>![image-20250116125449145](../assets/images/image-20250116125449145.png)
 >
 >它给我们设计了限制使用无法使用这个工具，这里推荐使用netexec，需要安装一下
 >
->![image-20250116131056841](D:\MyBlog\assets\images\image-20250116131056841.png)
+>![image-20250116131056841](../assets/images/image-20250116131056841.png)
 >
 >安装完利用的画面，这里有domain和账号密码的形式需要利用smbclient去操作
 >
->![image-20250116131724258](D:\MyBlog\assets\images\image-20250116131724258.png)
+>![image-20250116131724258](../assets/images/image-20250116131724258.png)
 >
 >这里需要注意利用 hash登录方式和用户形式，这里来自于ll104567和softyhack大佬的开荒时的记录
 >
->![image-20250116132114977](D:\MyBlog\assets\images\image-20250116132114977.png)
+>![image-20250116132114977](../assets/images/image-20250116132114977.png)
 >
 >这里利用对应目录形式完成smb登录操作
 
 ## 文件上传获取shell
 
->![image-20250116132902230](D:\MyBlog\assets\images\image-20250116132902230.png)
+>![image-20250116132902230](../assets/images/image-20250116132902230.png)
 >
->![image-20250116132925633](D:\MyBlog\assets\images\image-20250116132925633.png)
+>![image-20250116132925633](../assets/images/image-20250116132925633.png)
 >
->![image-20250116132937538](D:\MyBlog\assets\images\image-20250116132937538.png)
+>![image-20250116132937538](../assets/images/image-20250116132937538.png)
 >
 >这里可以看到我们已经将php上传到对应的目录中并且可以解析
 
 ## 获取webshell
 
->![image-20250116133206163](D:\MyBlog\assets\images\image-20250116133206163.png)
+>![image-20250116133206163](../assets/images/image-20250116133206163.png)
 >
->![image-20250116133219325](D:\MyBlog\assets\images\image-20250116133219325.png)
+>![image-20250116133219325](../assets/images/image-20250116133219325.png)
 
 
 
@@ -165,7 +165,7 @@ Nmap done: 1 IP address (1 host up) scanned in 17.13 seconds
 
 >这里存在对应的gtfobins形式
 >
->![image-20250116133432222](D:\MyBlog\assets\images\image-20250116133432222.png)
+>![image-20250116133432222](../assets/images/image-20250116133432222.png)
 >
 >![image-20250116133948620](D:\MyBlog\assets\images\image-20250116133948620.png)
 >
@@ -179,15 +179,15 @@ Nmap done: 1 IP address (1 host up) scanned in 17.13 seconds
 
 >这里可以看到root 利用的是more读取文件形式
 >
->![image-20250116134245614](D:\MyBlog\assets\images\image-20250116134245614.png)
+>![image-20250116134245614](../assets/images/image-20250116134245614.png)
 >
 >只有2行文字的情况下，我们需要缩小窗口达到显示不完全既可以拿到root权限
 >
->![image-20250116134632576](D:\MyBlog\assets\images\image-20250116134632576.png)
+>![image-20250116134632576](../assets/images/image-20250116134632576.png)
 >
 >这里需要回到原来的kali操作不能用ssh连接窗口
 >
->![image-20250116134826266](D:\MyBlog\assets\images\image-20250116134826266.png)
+>![image-20250116134826266](../assets/images/image-20250116134826266.png)
 >
 >这里要记住他需要横向缩小到最小不过我有其他方案之前我把stty都改成1，但是不展示了
 >
