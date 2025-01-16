@@ -167,7 +167,7 @@ Nmap done: 1 IP address (1 host up) scanned in 17.13 seconds
 >
 >![image-20250116133432222](../assets/images/image-20250116133432222.png)
 >
->![image-20250116133948620](D:\MyBlog\assets\images\image-20250116133948620.png)
+>![image-20250116133948620](../assets/images/image-20250116133948620.png)
 >
 >```
 >loko@raw:~$ sudo -l                                                                                                                                                                                             
