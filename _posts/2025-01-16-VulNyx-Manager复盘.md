@@ -113,29 +113,40 @@ typora-root-url: ./..\assets\images
 >这里把需要利用的php代码上传上去,这里发现php不解析需要利用后缀名去操作
 ![图 9](../assets/images/84c7f45d9ec18618442cd8329324b5c94e8416593d91196b8d8d1912272564d8.png)  
 >可以利用HackTricks的upload进行尝试操作
-![图 10](../assets/images/0a6c83ddf6b27e473199bd2936fad464d6c4e951c6fb3844d9a58a581d140521.png)  
+![图 10](../assets/images/0a6c83ddf6b27e473199bd2936fad464d6c4e951c6fb3844d9a58a581d140521.png)
+## Webshell操作  
 >尝试完无果，但是有一个明显的地方是我们是域名会不会隐藏在子域名上
 ![图 11](../assets/images/ccc424960cb32a79d17c8b69e6cd672f590aedd711740ef4a9d4bab76499cc53.png)  
 >很快出来了，根据那个子域名可以解析这个php，解析回显为0
 ![图 12](../assets/images/5fa646eaf7bca3d24cc6c3f457d2e774640f58eb7d2f545e3121361474dba0f1.png)  
 >接下来就是常规的webshell操作
+## 提权
 ![图 13](../assets/images/b199b3485ecf3524a5922e15b80e317f2ef3d4b0f0d6a0625db9cc4185625099.png)  
 >这里可以看到没有sudo -l 但是有10000，利用socat传递出来看看
 ![图 14](../assets/images/cf56455ec1f1d1e73293a371feae3b795ae407f04344dee521055963b4d4ff7f.png)  
 ![图 15](../assets/images/e85f5aa9fdbfe781ecac864c81aabf2dd999794898e8b2c0e2f80c4be89e8a2b.png)  
 >目前来看可能需要登录账号和密码，进行查找文件
+>
 ![图 16](../assets/images/a6fa98d36c3eedd7d429f708ae0e7621e93719d0f399008e910bbca979758694.png)  
 >这里存在定时任务
+>
 ![图 17](../assets/images/da625cec30bb19f8ee03cefbcbcdcaf49cf97d9f12f1398e86f8184fecfaa924.png)  
 >这里有一个可以更改的文件
+>
 ![图 18](../assets/images/36d032791158f9d68a4ca0a433290eb0f2cfe8b14e4ecb67fc288b2861a8b484.png)  
 >像是一个passwd,试更改一下
-![图 19](../assets/images/5fe39d18abf63a4c4d95bea553d8bb81179b72d9a421ad7189dc1e1ed6ef588f.png)  
+>
+![图 19](../assets/images/5fe39d18abf63a4c4d95bea553d8bb81179b72d9a421ad7189dc1e1ed6ef588f.png)
+>  
 >尝试登录发现存在登录密码设计，我们这里设计一个用户是root就可以登录了
+>
 ![图 22](../assets/images/cb25952c8ca489558596775d2d3a477bc522dba86654ff35be807efb439eb262.png)  
 >尝试登录
+>
 ![图 23](../assets/images/15ca0ef254f43cd6faa7633c5ffbf3261fb6f03a4544d25765039cf4b234ef45.png)  
 >发现root账号登录
+>
 ![图 24](../assets/images/65e1187e7d5fea44ec0f6353519c457867b3d94c0c18a8a711b709d34f43eade.png)
 >userflag:331f2b89261b006cac32f7e7df7e6247
+>
 >rootflag:a63b115640f6466c0d37ba166ea42d10
