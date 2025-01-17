@@ -3,7 +3,7 @@ title: VulNyx Shared靶机复盘
 author: LingMj
 data: 2025-01-17
 categories: [VulNyx]
-tags: [nfs,wordpress]
+tags: [nfs,wordpress,LFI,no_root_squash]
 description: 难度-Medium
 ---
 
@@ -128,7 +128,7 @@ Nmap done: 1 IP address (1 host up) scanned in 72.19 seconds
 ![图 18](../assets/images/3488bbf4d50318ff1eb22c822f977f3d39f1b550c1671eb444248b417e02d3a5.png)  
 ![图 19](../assets/images/d79bb91b1a10d00bc897a5539e4caf18d177e6e500866b6b9c76b63ea0aa168e.png)  
 
-## 提权
+## USER 提权
 ![图 20](../assets/images/37684d285462eaf8ab7e7b20b3ab96bc76b131f6ac64c477e41c539f423bcf99.png)  
 ![图 21](../assets/images/980cfe508ec0b29afb4b93becff32b6c38d7918ee0cbff93a45abee644342588.png)  
 ![图 22](../assets/images/ef9176fdca6f3df4fedf15ea89d6f352c64404cb68928d3a2abb927ce213b35e.png)  
@@ -162,7 +162,7 @@ Nmap done: 1 IP address (1 host up) scanned in 72.19 seconds
 ![图 31](../assets/images/d66f9c0dd34be41a97f069c43ec2ab99b1c09c855d7a843eb2aa36494a4ca046.png)  
 >尝试一下发现只有一个用户可以登录账号密码
 >
-## 提权
+## ROOT 提权
 
 ![图 32](../assets/images/43b5a093c52b02ecb037b9f541495c0ccd78ccecb3a9b61c0b2e9563b37fae99.png)  
 ![图 33](../assets/images/f360baae4ade7c34b258dd93269214d5b911d2f45581be0cc6af99efa24ff436.png)  
@@ -202,7 +202,7 @@ Nmap done: 1 IP address (1 host up) scanned in 72.19 seconds
 ![图 49](../assets/images/6c6645336806ac8c408d64cdc5081aaabc0adf76a9ea4107614856b1bc5edb63.png)  
 ![图 50](../assets/images/077593049dbfdb212ac36863d0cca979858c52085e06bdefd63e3c790fe81e89.png)  
 
->突然好开心，一直想这个方案，虽然感觉很多余的操作但是至少是独立想出来
+>操作有点多余,但至少解决了主机bash和靶机bash版本匹配问题,这里如果有大佬有更加简单的方案可以留言在b站给我
 >
 >好了到这里靶场就结束了
 
