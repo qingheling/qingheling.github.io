@@ -3,7 +3,7 @@ title: VulNyx Cache靶机复盘
 author: LingMj
 data: 2025-01-17
 categories: [VulNyx]
-tags: []
+tags: [proxy,brush,ssh,write]
 description: 难度-Medium
 ---
 
