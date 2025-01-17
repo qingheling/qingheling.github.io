@@ -3,7 +3,7 @@ title: VulNyx Load靶机复盘
 author: LingMj
 data: 2025-01-17
 categories: [Vulnyx]
-tags: []
+tags: [Upload,Xauth]
 description: 难度-Easy
 ---
 
