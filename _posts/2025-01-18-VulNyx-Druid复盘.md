@@ -3,7 +3,7 @@ title: VulNyx Druid靶机复盘
 author: LingMj
 data: 2025-01-18
 categories: [VulNyx]
-tags: [upload]
+tags: [domain,cve,super]
 description: 难度-Easy
 ---
 
