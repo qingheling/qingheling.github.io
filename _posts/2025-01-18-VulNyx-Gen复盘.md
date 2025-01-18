@@ -3,7 +3,7 @@ title: VulNyx Gen靶机复盘
 author: LingMj
 data: 2025-01-18
 categories: [VulNyx]
-tags: [upload]
+tags: [puttygen,tunnel,public-openssh]
 description: 难度-Hard
 ---
 
