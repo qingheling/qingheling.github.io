@@ -2,7 +2,7 @@
 title: VulNyx Infected靶机复盘
 author: LingMj
 data: 2025-01-17
-categories: [Vulnyx]
+categories: [VulNyx]
 tags: [mod_backdoor]
 description: 难度-Low
 ---

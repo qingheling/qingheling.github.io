@@ -2,7 +2,7 @@
 title: VulNyx Hunter靶机复盘
 author: LingMj
 data: 2025-01-17
-categories: [Vulnyx]
+categories: [VulNyx]
 tags: [upload,domain,bsh]
 description: 难度-Medium
 ---

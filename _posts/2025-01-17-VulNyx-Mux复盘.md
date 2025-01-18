@@ -2,7 +2,7 @@
 title: VulNyx Mux靶机复盘
 author: LingMj
 data: 2025-01-17
-categories: [Vulnyx]
+categories: [VulNyx]
 tags: [rsh,strings]
 description: 难度-Low
 ---
