@@ -3,7 +3,7 @@ title: VulNyx HackingStation靶机复盘
 author: LingMj
 data: 2025-01-19
 categories: [VulNyx]
-tags: [upload]
+tags: [command_inject,nmap]
 description: 难度-Low
 ---
 
