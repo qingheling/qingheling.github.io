@@ -3,7 +3,7 @@ title: VulNyx Plex靶机复盘
 author: LingMj
 data: 2025-01-19
 categories: [VulNyx]
-tags: [upload]
+tags: [curl,mutt]
 description: 难度-Easy
 ---
 

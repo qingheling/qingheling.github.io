@@ -3,7 +3,7 @@ title: VulNyx Lost靶机复盘
 author: LingMj
 data: 2025-01-19
 categories: [VulNyx]
-tags: [upload]
+tags: [sqlmap,shell,tunnel,ping,lxd]
 description: 难度-Hard
 ---
 
