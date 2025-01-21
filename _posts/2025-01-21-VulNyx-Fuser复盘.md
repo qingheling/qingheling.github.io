@@ -1,10 +1,10 @@
 ---
-title: VulNyx Bunker靶机复盘
+title: VulNyx Fuser靶机复盘
 author: LingMj
-data: 2025-01-22
+data: 2025-01-21
 categories: [VulNyx]
 tags: [upload]
-description: 难度-Easy
+description: 难度-Low
 ---
 
 ## 网段扫描
