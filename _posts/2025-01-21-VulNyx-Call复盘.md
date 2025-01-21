@@ -3,7 +3,7 @@ title: VulNyx Call靶机复盘
 author: LingMj
 data: 2025-01-21
 categories: [VulNyx]
-tags: [upload]
+tags: [udp,leak,sudo]
 description: 难度-Easy
 ---
 
