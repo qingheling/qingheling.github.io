@@ -157,9 +157,12 @@ www-data@640aa6d0dea4:/home$ ip a
 bash: ip: command not found
 www-data@640aa6d0dea4:/home$ 
 ```
+
 >这竟然不是主机，还得找线索去拿用户
 >
+
 ```
+www-data@640aa6d0dea4:ls -al
 -rw-r--r--  1 www-data www-data  2974 Jan 30  2023 web.config.txt
 www-data@640aa6d0dea4:/var/www/html$ cat web.config.txt 
 <?xml version="1.0" encoding="UTF-8"?>
@@ -212,12 +215,16 @@ www-data@640aa6d0dea4:/var/www/html$ cat web.config.txt
    </system.webServer>
    </location>
 </configuration>
+
 ```
 
 >无线索，只有root，跑密码吧
 >
-![图 25](../assets/images/c1c20ad595ec859afe2ff160159bb93cc182a44c847d24f79ef2dfb796515341.png)  
+
+![图 25](../assets/images/c1c20ad595ec859afe2ff160159bb93cc182a44c847d24f79ef2dfb796515341.png)
+
 ![图 26](../assets/images/a57b5032d3a48d8af0404eb90728ef9fd623ca9b7855a1da2d475c22eba1fa3d.png)  
+
 
 >密码fucker
 
