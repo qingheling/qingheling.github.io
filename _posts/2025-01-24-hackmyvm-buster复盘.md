@@ -3,7 +3,7 @@ title: hackmyvm buster靶机复盘
 author: LingMj
 data: 2025-01-24
 categories: [hackmyvm]
-tags: [upload]
+tags: [wordpress,cve2024-50498,gobuster]
 description: 难度-Easy
 ---
 
