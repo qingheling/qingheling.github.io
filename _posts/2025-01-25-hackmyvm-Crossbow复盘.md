@@ -3,7 +3,7 @@ title: hackmyvm Crossbow靶机复盘
 author: LingMj
 data: 2025-01-25
 categories: [hackmyvm]
-tags: [upload]
+tags: [ssh-agent,snefru,ansible]
 description: 难度-Medium
 ---
 
