@@ -3,7 +3,7 @@ title: hackmyvm jan靶机复盘
 author: LingMj
 data: 2025-01-31
 categories: [hackmyvm]
-tags: [upload]
+tags: [url,sshd]
 description: 难度-Easy
 ---
 

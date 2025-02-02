@@ -3,7 +3,7 @@ title: VulNyx Matrix靶机复盘
 author: LingMj
 data: 2025-01-231
 categories: [VulNyx]
-tags: [upload]
+tags: [php,domain,sudo]
 description: 难度-Medium
 ---
 
