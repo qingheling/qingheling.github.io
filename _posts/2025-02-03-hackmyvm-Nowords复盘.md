@@ -3,7 +3,7 @@ title: hackmyvm Nowords靶机复盘
 author: LingMj
 data: 2025-02-03
 categories: [hackmyvm]
-tags: [upload]
+tags: [ftp,image,les]
 description: 难度-Medium
 ---
 
