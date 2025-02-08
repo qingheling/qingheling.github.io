@@ -3,7 +3,7 @@ title: hackmyvm Hero靶机复盘
 author: LingMj
 data: 2025-02-08
 categories: [hackmyvm]
-tags: [upload]
+tags: [n8n,banner,chisel]
 description: 难度-Medium
 ---
 
