@@ -3,7 +3,7 @@ title: thehackerslabs Token Of Love靶机复盘
 author: LingMj
 data: 2025-02-20
 categories: [thehackerslabs]
-tags: [upload]
+tags: [jwt,webp,stego,rsync,nodejs,tee]
 description: 难度-Hard
 ---
 
