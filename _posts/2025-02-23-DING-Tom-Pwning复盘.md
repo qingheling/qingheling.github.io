@@ -84,13 +84,99 @@ Nmap done: 1 IP address (1 host up) scanned in 50.52 seconds
 
 ![图 11](../assets/images/1b59a52efef700153c760dea9a0f617825380eb979f5dd64b78d7f6f5b17dc9f.png)  
 
+>去看wp了，我把整个流程看了，现在自主复盘一下，我对于pwn部分实在是不会，所以只能这样了不过改找的信息都找了一下
+>
 
+![图 12](../assets/images/242fc9e796ec41a700744491302fd9af75ebb3f19284d94db8bc781a69c33bf1.png)  
+
+>熟人嘛，无非就是一些群友或者群主，这里试过是群主
+>
+
+![图 13](../assets/images/af2b7351a5952921b9e5b9b40909ce3dde3df30a980097a1239fe03d67c038d8.png)  
+![图 14](../assets/images/a9fbd96c39eb959d82c8426c720c142130a8ac123379c53f8e5eec024663d91b.png)  
+![图 15](../assets/images/188fea0debf6de74a39a0ee5d6b6595e8ce78f8eae8efbe108568e2561ffffad.png)  
+
+>拖去ida，看看，它是一个c++的代码我看c的伪代码都费劲，更别说c++了不过大体逻辑还是知道就是不知道咋用
+>
+![图 16](../assets/images/c2eef9dee73a68c637bb1a1afb60582501945a937ef4937ae40d4a0fba31ec45.png)  
+
+>这里是一个函数的地方，判断等一就退出的好比它是禁用字符什么的
+>
+![图 17](../assets/images/8362aaeb750e9875b60c26ec02ca523807b4e779f6e47c594352ba1ca7d93444.png)  
+![图 18](../assets/images/ac6b7c55e758134f5877e6d41374389f67698f0322087cc01fdb18bcf2891570.png)  
+
+>接下来就是函数调用
+>
+
+![图 19](../assets/images/0f594e36fb99c18374fd058a9a288f94b72c072bf2c9ed7656028657183ef942.png)  
+
+>当你上面的通过会有一个v18的值进来传递到v22然后你就会调用v22完成函数
+>
+
+![图 20](../assets/images/839fb2ba0c3b14a351bd149982a383debb4280f318a2bcbb91dfe205bcddaebe.png)  
+
+>这里可以看到我输入空格被干掉了但是会进行客户端连接，只要写一个绕过这个空格的反弹shell的16进制就能shellcode，作者给了payload方案奥
+>
+
+![图 22](../assets/images/5fdc63597af900210a4ec5fa1721cecb80bc16592d3c4b08d6d28158e356f290.png)  
+
+![图 21](../assets/images/7eb87d283230d99e391a44132e578407c7b48d9b8fa711bc0bce1cee558c2985.png)  
+
+![图 23](../assets/images/c29ffef9250f417f774b0b7c0bbb0d21fe3fdf50f329bafc62f3581bf4d4e6f2.png)  
+![图 24](../assets/images/fb49fe8a97f4945af7e45def8ec103b0221103ae935e8068cdf36da226e173cb.png)  
 
 ## 提权
 
+```
+lamb@pwnding:~$ ./key 
+54287lamb@pwnding:~$ cat note.txt 
+There is only one way to become ROOT, which is to execute getroot!!!
+成为ROOT的方法只有一条，就是执行 getroot !!!
+lamb@pwnding:~$ cat this_is_a_tips.txt 
+There is a fun tool called cupp.
+Are there really people that stupid these days? haha.
 
+有一个很好玩的工具叫做 cupp.
+现在真的还会有人这么蠢吗？haha
+```
 
->userflag:
+![图 25](../assets/images/6ad4a7068190b88f24bc3f6a8b1c4be56913fd7f583216a6d3889607a50b7986.png)  
+
+![图 26](../assets/images/55bfabcd29cfa94ea784465b4ee158b3d00060d52e2971bb9d38abe00eedcd67.png)  
+
+>找密码吧上面有一个cupp的提示
 >
->rootflag:
+
+![图 27](../assets/images/430180162e05a5908ead58e89f8553e461be45141a37b390a7b3fc788e6bef98.png)  
+![图 28](../assets/images/b6832acc5bb84ee6a1e8a04e671794e5c7b62a78341c08f8a1e2eabf74718534.png)  
+
+>我的suforce用不了我用的是sucrack的密码爆破形式
+>
+
+![图 29](../assets/images/791192293ee2a0e89b0855d584109c92acff2a1eb9f68f2fb035add493c19fa1.png)  
+
+![图 30](../assets/images/d597177ee007612e068a63b610bdfae60700e47e0418be21e9265057902790b7.png)  
+
+>存在隐藏文件所以可以去利用一手
+>
+
+![图 31](../assets/images/9e190d79f2aba453e964b20cf6f743cab5434d9aee1a0a4c9043769a65fcae07.png)  
+![图 32](../assets/images/bf242b952c06b519065515719030341920b28c2e8dc9a5aa82f8045c71632876.png)  
+
+>找到密码了
+>
+
+![图 33](../assets/images/3de00cec83af68e59ffee5e24e15dc058a4dee18ea55a8951a1ed2d852c6dce4.png)  
+![图 34](../assets/images/558cb886f13887f5c07f2ec25fafc05497dea28d266c1eef9fc5c7980ffa0d11.png)  
+![图 35](../assets/images/b416a8dd6bcd20760abd1ac3bd40202391da0e9443150cf3e0a119a6fb6b73f4.png)  
+![图 36](../assets/images/6a5def0851232a54276434cb8e7528ff0c42e51a309be0b4d6778f69a50cd095.png)  
+
+>密码就是哈希值不是12345，好了结束是一个非常好的靶机感谢DING Tom的靶机制作与提供！！
+>
+
+
+
+>userflag:flag{祝你新的一年开开心心啊!}
+>
+>rootflag:flag{7h4nk-y0u-f0r-pl4y1ng!!!}
 >
