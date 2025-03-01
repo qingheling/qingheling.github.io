@@ -3,7 +3,7 @@ title: hackmyvm Magifi靶机复盘
 author: LingMj
 data: 2025-03-01
 categories: [hackmyvm]
-tags: [ssti,wifi]
+tags: [ssti,wifi,upload]
 description: 难度-Hard
 ---
 
