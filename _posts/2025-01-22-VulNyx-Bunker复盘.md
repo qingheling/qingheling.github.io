@@ -3,7 +3,7 @@ title: VulNyx Bunker靶机复盘
 author: LingMj
 data: 2025-01-22
 categories: [VulNyx]
-tags: [upload]
+tags: [sctp,tomcat,gcore,pid]
 description: 难度-Medium
 ---
 

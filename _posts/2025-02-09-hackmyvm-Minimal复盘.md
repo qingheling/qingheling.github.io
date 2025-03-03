@@ -3,7 +3,7 @@ title: hackmyvm Minimal靶机复盘
 author: LingMj
 data: 2025-02-09
 categories: [hackmyvm]
-tags: [upload]
+tags: [pwn,phpfilter]
 description: 难度-Medium
 ---
 

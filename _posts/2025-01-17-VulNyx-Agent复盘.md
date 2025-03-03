@@ -3,7 +3,7 @@ title: VulNyx Agent靶机复盘
 author: LingMj
 data: 2025-01-17
 categories: [VulNyx]
-tags: []
+tags: [cve,ssh-agent]
 description: 难度-Low
 ---
 

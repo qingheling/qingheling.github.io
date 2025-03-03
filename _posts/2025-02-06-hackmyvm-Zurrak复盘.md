@@ -3,7 +3,7 @@ title: hackmyvm Zurrak靶机复盘
 author: LingMj
 data: 2025-02-06
 categories: [hackmyvm]
-tags: [upload]
+tags: [jwt,vmdk,smb]
 description: 难度-Medium
 ---
 

@@ -3,7 +3,7 @@ title: thehackerslabs Gimnasio靶机复盘
 author: LingMj
 data: 2025-03-01
 categories: [thehackerslabs]
-tags: [upload]
+tags: [xxe,sqlmap,hash,sh,perl]
 description: 难度-Easy
 ---
 

@@ -3,7 +3,7 @@ title: VulNyx JarJar靶机复盘
 author: LingMj
 data: 2025-03-02
 categories: [VulNyx]
-tags: [upload]
+tags: [ab]
 description: 难度-Medium
 ---
 

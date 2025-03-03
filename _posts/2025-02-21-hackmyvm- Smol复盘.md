@@ -3,7 +3,7 @@ title: hackmyvm Smol靶机复盘
 author: LingMj
 data: 2025-02-21
 categories: [hackmyvm]
-tags: [upload]
+tags: [wordpress,cve,vi]
 description: 难度-Medium
 ---
 

@@ -3,7 +3,7 @@ title: hackmyvm Qweasd靶机复盘
 author: LingMj
 data: 2025-02-22
 categories: [hackmyvm]
-tags: [upload]
+tags: [jenkins,pwn,Capabilities]
 description: 难度-Medium
 ---
 

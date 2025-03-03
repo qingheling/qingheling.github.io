@@ -3,7 +3,7 @@ title: VulNyx Hit靶机复盘
 author: LingMj
 data: 2025-02-04
 categories: [VulNyx]
-tags: [upload]
+tags: [git,log]
 description: 难度-Easy
 ---
 

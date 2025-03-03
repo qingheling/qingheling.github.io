@@ -3,7 +3,7 @@ title: VulNyx Bola靶机复盘
 author: LingMj
 data: 2025-02-08
 categories: [VulNyx]
-tags: [upload]
+tags: [rsync,md5,wsdl]
 description: 难度-Medium
 ---
 

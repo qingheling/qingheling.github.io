@@ -3,7 +3,7 @@ title: VulNyx Psymin靶机复盘
 author: LingMj
 data: 2025-01-21
 categories: [VulNyx]
-tags: [upload]
+tags: [webmin,file]
 description: 难度-Easy
 ---
 

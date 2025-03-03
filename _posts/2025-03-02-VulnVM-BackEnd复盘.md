@@ -3,7 +3,7 @@ title: VulnVM BackEnd靶机复盘
 author: LingMj
 data: 2025-03-02
 categories: [VulnVM]
-tags: [upload]
+tags: [jenkins,socat,java]
 description: 难度-Medium
 ---
 

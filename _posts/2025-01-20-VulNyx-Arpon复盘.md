@@ -3,7 +3,7 @@ title: VulNyx Arpon靶机复盘
 author: LingMj
 data: 2025-01-20
 categories: [VulNyx]
-tags: [upload]
+tags: [upload.hash,docker]
 description: 难度-Easy
 ---
 

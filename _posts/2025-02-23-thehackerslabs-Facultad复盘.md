@@ -3,7 +3,7 @@ title: thehackerslabs Facultad靶机复盘
 author: LingMj
 data: 2025-02-23
 categories: [thehackerslabs]
-tags: [upload]
+tags: [wordpress,hash,group]
 description: 难度-Easy
 ---
 
