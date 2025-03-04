@@ -3,7 +3,7 @@ title: hackmyvm Soul靶机复盘
 author: LingMj
 data: 2025-03-04
 categories: [hackmyvm]
-tags: [upload]
+tags: [stegseek,nginx,domain]
 description: 难度-Hard
 ---
 
