@@ -4,7 +4,7 @@ author: LingMj
 data: 2025-03-24
 categories: [VulnVM]
 tags: [upload]
-description: 难度-Medium
+description: 难度-Easy
 ---
 
 ## 网段扫描
