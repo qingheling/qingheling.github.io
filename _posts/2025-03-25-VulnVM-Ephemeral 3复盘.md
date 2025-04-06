@@ -2,7 +2,7 @@
 title: VulnVM Ephemeral 3靶机复盘
 author: LingMj
 data: 2025-03-25
-categories: [VulnVM,hackmyvm]
+categories: [VulnVM]
 tags: [upload]
 description: 难度-Easy
 ---
