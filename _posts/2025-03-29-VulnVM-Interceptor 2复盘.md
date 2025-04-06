@@ -104,6 +104,76 @@ Nmap done: 1 IP address (1 host up) scanned in 27.52 seconds
 >搁置了，没有思路
 >
 
+>好了拿到了一个脚本
+>
+
+```
+import requests
+import hashlib
+import time
+
+url = "http://192.168.3.181/wordpress/wp-json/wp/v2/archive/"
+timestamp = str(int(time.time()))
+nonce = "mahalkita"
+secret = "supersecret"
+
+# 生成签名
+signature = hashlib.sha256(f"{timestamp}{nonce}".encode() + secret.encode()).hexdigest()
+
+headers = {
+    "timestamp": timestamp,
+    "nonce": nonce,
+    "signature": signature
+}
+
+response = requests.get(url, headers=headers)
+print(response.status_code)
+print(response.text)
+```
+
+>这里肯定需要改一下东西
+>
+
+![picture 12](../assets/images/5077df36eafa8b77bdc3b47d8217fdea4ea1c7700401238acff1391191561365.png)  
+![picture 13](../assets/images/ea7f378da11b1bd139077914de7dd301f05b469ea708ff0ba89566190d3b31a2.png)  
+
+>目前都没思路，看大佬非预期解。
+>
+
+![picture 14](../assets/images/b838b864384eaf9c09b398fc134442307b1bf25cefabf2a2c85fe8bc4b995d75.png)  
+
+![picture 15](../assets/images/de1ab469bc238be40580a945f5fe2e99e95d7bdba74b7e8b7dd5472248b25c8e.png)  
+
+>闪电侠的精简wp对我来说确实很有看的难度，我可以看到它先打过一遍再写的wp，有些地方比如字典我就没找到,压根打不了
+>
+
+>我看了wp，看到一个牛马的东西，就是wordpress原来啥也没改，我直接看上个靶机用就好了，如果可以我评价这个包是垃圾靶机
+>
+
+![picture 16](../assets/images/d6a49422fa3e73e99c195f8693bdcedc73f871db4aa3df03f9f14deb56d7c1b5.png)  
+
+>这里看我自己博客的截图
+>
+![picture 17](../assets/images/184960121af7c6b1d576162cbc9b98a4ea1fec39cabfe0a663b1bf2f028c2416.png)  
+
+>没成功哈哈哈哈，确实不行看下一个，可以感觉到明显不一样，算了我感觉继续打下去跟开盒似的，不打了啥时候放官方wp再议了，我还是很难理解闪电侠的wp的，哈哈哈哈
+>
+
+![picture 18](../assets/images/8d9d8affba8fe12463c2bd196e5b1ad2e25fe337046c129dce1b0f8d0b5145a1.png)  
+
+>我看到了明确的密码爆破成功，所以其实上面操作可以不用
+>
+
+![picture 19](../assets/images/16dc4777cb4733c02e1c8e54bc6378109a8cb3ef1007e0185017b126858d8b59.png)  
+
+>啊真的假的这个靶机能正常打？
+>
+
+![picture 20](../assets/images/840fa06372049c795e473d2bceb9efd028c25e727c1e01add4c7f4685663588e.png)  
+
+>没有密码，算了不挣扎了，不打了
+>
+
 
 
 ## 提权
