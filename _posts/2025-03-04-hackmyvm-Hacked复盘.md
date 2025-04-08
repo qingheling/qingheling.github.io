@@ -90,7 +90,20 @@ Nmap done: 1 IP address (1 host up) scanned in 21.01 seconds
 >没有用跟这个无关爆破用户名了，得到了些线索导致我觉得很难熬，所以搁置了，哈哈哈哈
 >
 
->userflag:
+>补一下后面找到了wp看还是内核我对这个研究一向不通
+>地址：https://github.com/m0nad/Diamorphine
 >
->rootflag:
+![picture 20](../assets/images/da590db2bd868274a8e46e30581206c14349e7238e66b6a2286374956397524a.png)  
+![picture 21](../assets/images/e4d84ec75bcdb7ef312d85ccd4168c02b67725a7a2b31cdedd6f4a501af7f4b3.png)  
+
+![picture 18](../assets/images/65e7ccb15642e9a15e2f00f237b547c55900a7d709c88d8899a58530695f2a02.png)  
+![picture 19](../assets/images/43817753d400908c664219458133659f5150253bc75ea55227002bd374f123c6.png)  
+
+>这样就结束了
+>
+
+
+>userflag:HMVimthabesthacker
+>
+>rootflag:HMVhackingthehacker
 >
