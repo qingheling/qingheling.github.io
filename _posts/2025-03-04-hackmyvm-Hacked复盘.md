@@ -93,6 +93,8 @@ Nmap done: 1 IP address (1 host up) scanned in 21.01 seconds
 >补一下后面找到了wp看还是内核我对这个研究一向不通
 >地址：https://github.com/m0nad/Diamorphine
 >
+
+
 ![picture 20](../assets/images/da590db2bd868274a8e46e30581206c14349e7238e66b6a2286374956397524a.png)  
 ![picture 21](../assets/images/e4d84ec75bcdb7ef312d85ccd4168c02b67725a7a2b31cdedd6f4a501af7f4b3.png)  
 
