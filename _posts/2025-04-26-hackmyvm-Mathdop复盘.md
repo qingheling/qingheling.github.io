@@ -210,6 +210,85 @@ for i, value in enumerate(seasonal_values, start=1):
 >我们要把S算出来需要将值不断更新才行,我先换一下设备先这个设备很不支持
 >
 
+>现在开始算一下C的值不断补充完成剩下的操作
+>
+
+```
+fore_averages = []
+
+for i in range(3,len(df)):
+    average = (df['销售量'][i-3] + df['销售量'][i-2] + df['销售量'][i-1] + df['销售量'][i])/4
+    fore_averages.append(average)
+
+df['四项居中平均'] = [None] * 2 + fore_averages + [None]
+
+averages = []
+
+for i in range(2,len(df)-2):
+    averag = (df['四项居中平均'][i] + df['四项居中平均'][i+1])/2
+    averages.append(averag)
+
+df['居中平均'] = [None] * 2 + averages + [None] + [None]
+
+X = df[['时间代码']] 
+y = df['销售量']     
+
+model = LinearRegression()
+
+model.fit(X, y)
+
+b0 = model.intercept_ 
+b1 = model.coef_[0]   
+
+predictions_T = [b0 + b1 * tc for tc in range(3, len(df['时间代码'])+1)]
+
+prediction_T = []
+
+for i, value in enumerate(predictions_T, start=1):
+    prediction_T.append(round(value, 4))    
+
+df['T'] = [None] * 2 + prediction_T
+
+
+predictions_C = []
+
+for i in range(2, len(df['T'])):
+    prediction_C = (df['居中平均'][i]/df['T'][i])
+    predictions_C.append(round(prediction_C, 4))
+
+df['C'] = [None] * 2 + predictions_C
+
+with pd.ExcelWriter(file_path, engine='openpyxl', mode='a', if_sheet_exists='replace') as writer:
+    df.to_excel(writer, sheet_name='Sheet1', index=False)
+```
+
+>这样创造你的原来数据表即可多出对应的C值，C值按季节平均即可为C的预测值
+>
+
+![图 0](../assets/images/00979af5dc51c1abdd944de9b3a769ca4e04d826917db0289b68b8f86e386412.png)  
+![图 1](../assets/images/df5d44dfb5576ec16bd6f99767c9f83f0bcc9883d75ecf8b630ef26a7dbf5fcc.png)  
+
+>这样即可算出C的答案现在要做的是对比C值，可以看到也是一致的
+>
+
+>接着补充数据值完成下一个操作
+>
+
+![图 2](../assets/images/fa38f41da9003ac72d90d43cc035bae8a75ea69b94291558cb8f77874a5da3fc.png)  
+![图 3](../assets/images/98e2b9e8204396d4c2679568fd2e141b36e12b8f9b004c6a86b93fc99d515c62.png)  
+
+>当时不严谨了哈哈哈哈，题目答案计算错误了
+>
+
+![图 4](../assets/images/a33c300d6fe9e5479481552e57f9ba917ae76cc7cfa96d75b42a33588a8a3ff4.png)  
+
+![图 5](../assets/images/56eaa6c5d0dba74ed718267469958322d714e2ba51b4d5e887a07d2da88aa449.png)  
+
+>最后应该是90*1*2的sha256值才对，不过错误了我原来以为直接可以预测所以答案为56*1*1的值，出题不严谨了
+>
+
+>最后拿着56*1*1的sha256登录mathdop，里面提权是个脚本可以使用base64的date -f 读取任意文件，没留下root.txt,读取shadow可以获取密码值得等待结束这个靶机
+>
 
 >userflag:
 >
