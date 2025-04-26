@@ -210,12 +210,6 @@ for i, value in enumerate(seasonal_values, start=1):
 >我们要把S算出来需要将值不断更新才行,我先换一下设备先这个设备很不支持
 >
 
-```
-
-```
-
-
-
 
 >userflag:
 >

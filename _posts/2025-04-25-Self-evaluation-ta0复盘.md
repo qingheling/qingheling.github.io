@@ -1,5 +1,5 @@
 ---
-title: Self-evaluation Token Of Love靶机复盘
+title: Self-evaluation ta0靶机复盘
 author: LingMj
 data: 2025-04-25
 categories: [Self-evaluation]
@@ -79,6 +79,8 @@ Nmap done: 1 IP address (1 host up) scanned in 30.41 seconds
 
 ## 提权
 
+>哈哈哈哈哈
+>
 
 
 >userflag:
