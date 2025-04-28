@@ -54,7 +54,19 @@ awk '{
 }' file.txt
 ```
 
+## 题目四
+
+![picture 3](../assets/images/121529505dfa3b3b4ac787952d3ea9e6e723e7a3fd95b7ce48c399b8ef9995db.png)  
+
+>这个的话先进行换行操作，让数据一行一个，然后去除空行，接着awk进行操作，sort -k2 nr进行按第二列降序,不过我觉得还有更好的方案，目前没想到希望有大佬给我来点操作
+>
+
+```
+cat words.txt| tr ' ' '\n' | sed '/^$/d' | awk '{word[$1]++} END {for (i in word) print i, word[i]}' | sort -k2 -nr
+```
 
 
 
+>由于leetcode就四道shell题，所以这个文章到这里结束了
+>
 
