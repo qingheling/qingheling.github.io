@@ -89,6 +89,11 @@ Nmap done: 1 IP address (1 host up) scanned in 17.15 seconds
 >这个我看着很眼熟查了一下是dd
 >
 
+![picture 15](../assets/images/7d30fd0e5e4323f4064a92ad6d15c295403ba1dfa19083246dd55c96f2319df0.png)  
+
+![picture 14](../assets/images/d8e1da0a865ae0774f658292e0f3100cebcd5bd6dc6dc7c76bc13c1fad6b81b9.png)  
+
+
 ![picture 12](../assets/images/31f5de57d9ce72caa9a845453503ab262e11d7a45b19f3286bf0221c547e3fd8.png)  
 ![picture 13](../assets/images/a59867caa023483d7d6b6db26aa5b3a9100c015f56e128fc22d283a3dd9b46ec.png)  
 
