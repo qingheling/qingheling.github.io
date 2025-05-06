@@ -360,6 +360,612 @@ exit(1)
 >看来是build的问题,算了我放弃除非是那种就是给build建造的tar不然解决不了睡觉了，我看了文档明天找官方带build的tar文件
 >
 
+```
+root@LingMj:~/xxoo/jarjar# mkdir -p alpine-rebuild
+                                                                                                                                                                                                        
+root@LingMj:~/xxoo/jarjar# cd alpine-rebuild 
+                                                                                                                                                                                                        
+root@LingMj:~/xxoo/jarjar/alpine-rebuild# cp ../alpine.tar .
+                                                                                                                                                                                                        
+root@LingMj:~/xxoo/jarjar/alpine-rebuild# mkdir -p alpine-layers
+                                                                                                                                                                                                        
+root@LingMj:~/xxoo/jarjar/alpine-rebuild# tar -xf alpine.tar -C alpine-layers
+                                                                                                                                                                                                        
+root@LingMj:~/xxoo/jarjar/alpine-rebuild# cd alpine-layers
+                                                                                                                                                                                                        
+root@LingMj:~/xxoo/jarjar/alpine-rebuild/alpine-layers# mkdir merged_rootfs
+                                                                                                                                                                                                        
+root@LingMj:~/xxoo/jarjar/alpine-rebuild/alpine-layers# gzip -d < blobs/sha256/$(cat manifest.json | jq -r '.[0].Layers[0]' | sed 's/^blobs\/sha256\///') | tar -x -C merged_rootfs
+                                                                                                                                                                                                        
+root@LingMj:~/xxoo/jarjar/alpine-rebuild/alpine-layers# cd ..                              
+                                                                                                                                                                                                        
+root@LingMj:~/xxoo/jarjar/alpine-rebuild# cat > Dockerfile <<EOF   
+FROM scratch
+COPY alpine-layers/merged_rootfs/ /
+ENV PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+CMD ["/bin/sh"]
+EOF
+                                                                                                                                                                                                        
+root@LingMj:~/xxoo/jarjar/alpine-rebuild# ls     
+alpine-layers  alpine.tar  Dockerfile
+                                                                                                                                                                                                        
+root@LingMj:~/xxoo/jarjar/alpine-rebuild# cat Dockerfile        
+FROM scratch
+COPY alpine-layers/merged_rootfs/ /
+ENV PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+CMD ["/bin/sh"]
+                                                                                                                                                                                                        
+root@LingMj:~/xxoo/jarjar/alpine-rebuild# docker build -t my-alpine:latest .
+DEPRECATED: The legacy builder is deprecated and will be removed in a future release.
+            Install the buildx component to build images with BuildKit:
+            https://docs.docker.com/go/buildx/
+
+Sending build context to Docker daemon  15.44MB
+Step 1/4 : FROM scratch
+ ---> 
+Step 2/4 : COPY alpine-layers/merged_rootfs/ /
+ ---> 876706700f63
+Step 3/4 : ENV PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+ ---> Running in d07d8df463de
+ ---> Removed intermediate container d07d8df463de
+ ---> dcf26edd1f55
+Step 4/4 : CMD ["/bin/sh"]
+ ---> Running in 67e3d4d22f89
+ ---> Removed intermediate container 67e3d4d22f89
+ ---> 121ec56e685a
+Successfully built 121ec56e685a
+Successfully tagged my-alpine:latest
+                                                                                                                                                                                                        
+root@LingMj:~/xxoo/jarjar/alpine-rebuild# docker run --rm my-alpine:latest /bin/ls -l /bin
+```
+
+>这里是我研究的整个流程用于hash处理这样就解决oci的对应docker image重建
+>
+
+
+![picture 25](../assets/images/b16c6da60c5c812ecd1b3ddcaa7dfd49fa44bd51fb601ee435f60147d9207211.png)  
+
+![picture 24](../assets/images/1e5ad6401bdd773cab9bcd924b466ffb0847b7e327a12e3a91b674eff6410a31.png)  
+
+>结束，逻辑的话就是原来镜像里面的/bin/busybox是需要理由hash提取出来在重构组里。并且需要指定PATH保证能访问到里面去，也就是说我直接pull，save的tar是不满足重构的要求，这里我们需要手动创建文件夹和文件夹目录结构才行
+>
+
+```
+alpine-rebuild/
+├── Dockerfile
+├── alpine-layers
+│   ├── blobs
+│   │   └── sha256
+│   │       ├── 1c4eef651f65e2f7daee7ee785882ac164b02b78fb74503052a26dc061c90474
+│   │       ├── a8560b36e8b8210634f77d9f7f9efd7ffa463e380b75e2e74aff4511df3ef88c
+│   │       ├── aded1e1a5b3705116fa0a92ba074a5e0b0031647d9c315983ccba2ee5428ec8b
+│   │       └── f18232174bc91741fdf3da96d85011092101a032a93a388b79e99e69c2d5c870
+│   ├── index.json
+│   ├── manifest.json
+│   ├── merged_rootfs
+│   │   ├── bin
+│   │   │   ├── arch -> /bin/busybox
+│   │   │   ├── ash -> /bin/busybox
+│   │   │   ├── base64 -> /bin/busybox
+│   │   │   ├── bbconfig -> /bin/busybox
+│   │   │   ├── busybox
+│   │   │   ├── cat -> /bin/busybox
+│   │   │   ├── chattr -> /bin/busybox
+│   │   │   ├── chgrp -> /bin/busybox
+│   │   │   ├── chmod -> /bin/busybox
+│   │   │   ├── chown -> /bin/busybox
+│   │   │   ├── cp -> /bin/busybox
+│   │   │   ├── date -> /bin/busybox
+│   │   │   ├── dd -> /bin/busybox
+│   │   │   ├── df -> /bin/busybox
+│   │   │   ├── dmesg -> /bin/busybox
+│   │   │   ├── dnsdomainname -> /bin/busybox
+│   │   │   ├── dumpkmap -> /bin/busybox
+│   │   │   ├── echo -> /bin/busybox
+│   │   │   ├── egrep -> /bin/busybox
+│   │   │   ├── false -> /bin/busybox
+│   │   │   ├── fatattr -> /bin/busybox
+│   │   │   ├── fdflush -> /bin/busybox
+│   │   │   ├── fgrep -> /bin/busybox
+│   │   │   ├── fsync -> /bin/busybox
+│   │   │   ├── getopt -> /bin/busybox
+│   │   │   ├── grep -> /bin/busybox
+│   │   │   ├── gunzip -> /bin/busybox
+│   │   │   ├── gzip -> /bin/busybox
+│   │   │   ├── hostname -> /bin/busybox
+│   │   │   ├── ionice -> /bin/busybox
+│   │   │   ├── iostat -> /bin/busybox
+│   │   │   ├── ipcalc -> /bin/busybox
+│   │   │   ├── kbd_mode -> /bin/busybox
+│   │   │   ├── kill -> /bin/busybox
+│   │   │   ├── link -> /bin/busybox
+│   │   │   ├── linux32 -> /bin/busybox
+│   │   │   ├── linux64 -> /bin/busybox
+│   │   │   ├── ln -> /bin/busybox
+│   │   │   ├── login -> /bin/busybox
+│   │   │   ├── ls -> /bin/busybox
+│   │   │   ├── lsattr -> /bin/busybox
+│   │   │   ├── lzop -> /bin/busybox
+│   │   │   ├── makemime -> /bin/busybox
+│   │   │   ├── mkdir -> /bin/busybox
+│   │   │   ├── mknod -> /bin/busybox
+│   │   │   ├── mktemp -> /bin/busybox
+│   │   │   ├── more -> /bin/busybox
+│   │   │   ├── mount -> /bin/busybox
+│   │   │   ├── mountpoint -> /bin/busybox
+│   │   │   ├── mpstat -> /bin/busybox
+│   │   │   ├── mv -> /bin/busybox
+│   │   │   ├── netstat -> /bin/busybox
+│   │   │   ├── nice -> /bin/busybox
+│   │   │   ├── pidof -> /bin/busybox
+│   │   │   ├── ping -> /bin/busybox
+│   │   │   ├── ping6 -> /bin/busybox
+│   │   │   ├── pipe_progress -> /bin/busybox
+│   │   │   ├── printenv -> /bin/busybox
+│   │   │   ├── ps -> /bin/busybox
+│   │   │   ├── pwd -> /bin/busybox
+│   │   │   ├── reformime -> /bin/busybox
+│   │   │   ├── rev -> /bin/busybox
+│   │   │   ├── rm -> /bin/busybox
+│   │   │   ├── rmdir -> /bin/busybox
+│   │   │   ├── run-parts -> /bin/busybox
+│   │   │   ├── sed -> /bin/busybox
+│   │   │   ├── setpriv -> /bin/busybox
+│   │   │   ├── setserial -> /bin/busybox
+│   │   │   ├── sh -> /bin/busybox
+│   │   │   ├── sleep -> /bin/busybox
+│   │   │   ├── stat -> /bin/busybox
+│   │   │   ├── stty -> /bin/busybox
+│   │   │   ├── su -> /bin/busybox
+│   │   │   ├── sync -> /bin/busybox
+│   │   │   ├── tar -> /bin/busybox
+│   │   │   ├── touch -> /bin/busybox
+│   │   │   ├── true -> /bin/busybox
+│   │   │   ├── umount -> /bin/busybox
+│   │   │   ├── uname -> /bin/busybox
+│   │   │   ├── usleep -> /bin/busybox
+│   │   │   ├── watch -> /bin/busybox
+│   │   │   └── zcat -> /bin/busybox
+│   │   ├── dev
+│   │   ├── etc
+│   │   │   ├── alpine-release
+│   │   │   ├── apk
+│   │   │   │   ├── arch
+│   │   │   │   ├── keys
+│   │   │   │   │   ├── alpine-devel@lists.alpinelinux.org-4a6a0840.rsa.pub
+│   │   │   │   │   ├── alpine-devel@lists.alpinelinux.org-5243ef4b.rsa.pub
+│   │   │   │   │   ├── alpine-devel@lists.alpinelinux.org-5261cecb.rsa.pub
+│   │   │   │   │   ├── alpine-devel@lists.alpinelinux.org-6165ee59.rsa.pub
+│   │   │   │   │   └── alpine-devel@lists.alpinelinux.org-61666e3f.rsa.pub
+│   │   │   │   ├── protected_paths.d
+│   │   │   │   ├── repositories
+│   │   │   │   └── world
+│   │   │   ├── busybox-paths.d
+│   │   │   │   └── busybox
+│   │   │   ├── crontabs
+│   │   │   │   └── root
+│   │   │   ├── fstab
+│   │   │   ├── group
+│   │   │   ├── hostname
+│   │   │   ├── hosts
+│   │   │   ├── inittab
+│   │   │   ├── issue
+│   │   │   ├── logrotate.d
+│   │   │   │   └── acpid
+│   │   │   ├── modprobe.d
+│   │   │   │   ├── aliases.conf
+│   │   │   │   ├── blacklist.conf
+│   │   │   │   ├── i386.conf
+│   │   │   │   └── kms.conf
+│   │   │   ├── modules
+│   │   │   ├── modules-load.d
+│   │   │   ├── motd
+│   │   │   ├── mtab -> ../proc/mounts
+│   │   │   ├── network
+│   │   │   │   ├── if-down.d
+│   │   │   │   ├── if-post-down.d
+│   │   │   │   ├── if-post-up.d
+│   │   │   │   ├── if-pre-down.d
+│   │   │   │   ├── if-pre-up.d
+│   │   │   │   └── if-up.d
+│   │   │   │       └── dad
+│   │   │   ├── nsswitch.conf
+│   │   │   ├── opt
+│   │   │   ├── os-release -> ../usr/lib/os-release
+│   │   │   ├── passwd
+│   │   │   ├── periodic
+│   │   │   │   ├── 15min
+│   │   │   │   ├── daily
+│   │   │   │   ├── hourly
+│   │   │   │   ├── monthly
+│   │   │   │   └── weekly
+│   │   │   ├── profile
+│   │   │   ├── profile.d
+│   │   │   │   ├── 20locale.sh
+│   │   │   │   ├── README
+│   │   │   │   └── color_prompt.sh.disabled
+│   │   │   ├── protocols
+│   │   │   ├── secfixes.d
+│   │   │   │   └── alpine
+│   │   │   ├── securetty
+│   │   │   ├── services
+│   │   │   ├── shadow
+│   │   │   ├── shells
+│   │   │   ├── ssl
+│   │   │   │   ├── cert.pem -> certs/ca-certificates.crt
+│   │   │   │   ├── certs
+│   │   │   │   │   └── ca-certificates.crt
+│   │   │   │   ├── ct_log_list.cnf
+│   │   │   │   ├── ct_log_list.cnf.dist
+│   │   │   │   ├── openssl.cnf
+│   │   │   │   ├── openssl.cnf.dist
+│   │   │   │   └── private
+│   │   │   ├── ssl1.1
+│   │   │   │   ├── cert.pem -> /etc/ssl/cert.pem
+│   │   │   │   └── certs -> /etc/ssl/certs
+│   │   │   ├── sysctl.conf
+│   │   │   ├── sysctl.d
+│   │   │   └── udhcpc
+│   │   │       └── udhcpc.conf
+│   │   ├── home
+│   │   ├── lib
+│   │   │   ├── apk
+│   │   │   │   ├── db
+│   │   │   │   │   ├── installed
+│   │   │   │   │   ├── lock
+│   │   │   │   │   ├── scripts.tar
+│   │   │   │   │   └── triggers
+│   │   │   │   └── exec
+│   │   │   ├── firmware
+│   │   │   ├── ld-musl-x86_64.so.1
+│   │   │   ├── libc.musl-x86_64.so.1 -> ld-musl-x86_64.so.1
+│   │   │   ├── modules-load.d
+│   │   │   └── sysctl.d
+│   │   ├── media
+│   │   │   ├── cdrom
+│   │   │   ├── floppy
+│   │   │   └── usb
+│   │   ├── mnt
+│   │   ├── opt
+│   │   ├── proc
+│   │   ├── root [error opening dir]
+│   │   ├── run
+│   │   │   └── lock
+│   │   ├── sbin
+│   │   │   ├── acpid -> /bin/busybox
+│   │   │   ├── adjtimex -> /bin/busybox
+│   │   │   ├── apk
+│   │   │   ├── arp -> /bin/busybox
+│   │   │   ├── blkid -> /bin/busybox
+│   │   │   ├── blockdev -> /bin/busybox
+│   │   │   ├── depmod -> /bin/busybox
+│   │   │   ├── fbsplash -> /bin/busybox
+│   │   │   ├── fdisk -> /bin/busybox
+│   │   │   ├── findfs -> /bin/busybox
+│   │   │   ├── fsck -> /bin/busybox
+│   │   │   ├── fstrim -> /bin/busybox
+│   │   │   ├── getty -> /bin/busybox
+│   │   │   ├── halt -> /bin/busybox
+│   │   │   ├── hwclock -> /bin/busybox
+│   │   │   ├── ifconfig -> /bin/busybox
+│   │   │   ├── ifdown -> /bin/busybox
+│   │   │   ├── ifenslave -> /bin/busybox
+│   │   │   ├── ifup -> /bin/busybox
+│   │   │   ├── init -> /bin/busybox
+│   │   │   ├── inotifyd -> /bin/busybox
+│   │   │   ├── insmod -> /bin/busybox
+│   │   │   ├── ip -> /bin/busybox
+│   │   │   ├── ipaddr -> /bin/busybox
+│   │   │   ├── iplink -> /bin/busybox
+│   │   │   ├── ipneigh -> /bin/busybox
+│   │   │   ├── iproute -> /bin/busybox
+│   │   │   ├── iprule -> /bin/busybox
+│   │   │   ├── iptunnel -> /bin/busybox
+│   │   │   ├── klogd -> /bin/busybox
+│   │   │   ├── ldconfig
+│   │   │   ├── loadkmap -> /bin/busybox
+│   │   │   ├── logread -> /bin/busybox
+│   │   │   ├── losetup -> /bin/busybox
+│   │   │   ├── lsmod -> /bin/busybox
+│   │   │   ├── mdev -> /bin/busybox
+│   │   │   ├── mkdosfs -> /bin/busybox
+│   │   │   ├── mkfs.vfat -> /bin/busybox
+│   │   │   ├── mkswap -> /bin/busybox
+│   │   │   ├── modinfo -> /bin/busybox
+│   │   │   ├── modprobe -> /bin/busybox
+│   │   │   ├── nameif -> /bin/busybox
+│   │   │   ├── nologin -> /bin/busybox
+│   │   │   ├── pivot_root -> /bin/busybox
+│   │   │   ├── poweroff -> /bin/busybox
+│   │   │   ├── raidautorun -> /bin/busybox
+│   │   │   ├── reboot -> /bin/busybox
+│   │   │   ├── rmmod -> /bin/busybox
+│   │   │   ├── route -> /bin/busybox
+│   │   │   ├── setconsole -> /bin/busybox
+│   │   │   ├── slattach -> /bin/busybox
+│   │   │   ├── swapoff -> /bin/busybox
+│   │   │   ├── swapon -> /bin/busybox
+│   │   │   ├── switch_root -> /bin/busybox
+│   │   │   ├── sysctl -> /bin/busybox
+│   │   │   ├── syslogd -> /bin/busybox
+│   │   │   ├── tunctl -> /bin/busybox
+│   │   │   ├── udhcpc -> /bin/busybox
+│   │   │   ├── vconfig -> /bin/busybox
+│   │   │   ├── watchdog -> /bin/busybox
+│   │   │   └── zcip -> /bin/busybox
+│   │   ├── srv
+│   │   ├── sys
+│   │   ├── tmp
+│   │   ├── usr
+│   │   │   ├── bin
+│   │   │   │   ├── [ -> /bin/busybox
+│   │   │   │   ├── [[ -> /bin/busybox
+│   │   │   │   ├── awk -> /bin/busybox
+│   │   │   │   ├── basename -> /bin/busybox
+│   │   │   │   ├── bc -> /bin/busybox
+│   │   │   │   ├── beep -> /bin/busybox
+│   │   │   │   ├── blkdiscard -> /bin/busybox
+│   │   │   │   ├── bunzip2 -> /bin/busybox
+│   │   │   │   ├── bzcat -> /bin/busybox
+│   │   │   │   ├── bzip2 -> /bin/busybox
+│   │   │   │   ├── cal -> /bin/busybox
+│   │   │   │   ├── chvt -> /bin/busybox
+│   │   │   │   ├── cksum -> /bin/busybox
+│   │   │   │   ├── clear -> /bin/busybox
+│   │   │   │   ├── cmp -> /bin/busybox
+│   │   │   │   ├── comm -> /bin/busybox
+│   │   │   │   ├── cpio -> /bin/busybox
+│   │   │   │   ├── crontab -> /bin/busybox
+│   │   │   │   ├── cryptpw -> /bin/busybox
+│   │   │   │   ├── cut -> /bin/busybox
+│   │   │   │   ├── dc -> /bin/busybox
+│   │   │   │   ├── deallocvt -> /bin/busybox
+│   │   │   │   ├── diff -> /bin/busybox
+│   │   │   │   ├── dirname -> /bin/busybox
+│   │   │   │   ├── dos2unix -> /bin/busybox
+│   │   │   │   ├── du -> /bin/busybox
+│   │   │   │   ├── eject -> /bin/busybox
+│   │   │   │   ├── env -> /bin/busybox
+│   │   │   │   ├── expand -> /bin/busybox
+│   │   │   │   ├── expr -> /bin/busybox
+│   │   │   │   ├── factor -> /bin/busybox
+│   │   │   │   ├── fallocate -> /bin/busybox
+│   │   │   │   ├── find -> /bin/busybox
+│   │   │   │   ├── flock -> /bin/busybox
+│   │   │   │   ├── fold -> /bin/busybox
+│   │   │   │   ├── free -> /bin/busybox
+│   │   │   │   ├── fuser -> /bin/busybox
+│   │   │   │   ├── getconf
+│   │   │   │   ├── getent
+│   │   │   │   ├── groups -> /bin/busybox
+│   │   │   │   ├── hd -> /bin/busybox
+│   │   │   │   ├── head -> /bin/busybox
+│   │   │   │   ├── hexdump -> /bin/busybox
+│   │   │   │   ├── hostid -> /bin/busybox
+│   │   │   │   ├── iconv
+│   │   │   │   ├── id -> /bin/busybox
+│   │   │   │   ├── install -> /bin/busybox
+│   │   │   │   ├── ipcrm -> /bin/busybox
+│   │   │   │   ├── ipcs -> /bin/busybox
+│   │   │   │   ├── killall -> /bin/busybox
+│   │   │   │   ├── last -> /bin/busybox
+│   │   │   │   ├── ldd
+│   │   │   │   ├── less -> /bin/busybox
+│   │   │   │   ├── logger -> /bin/busybox
+│   │   │   │   ├── lsof -> /bin/busybox
+│   │   │   │   ├── lsusb -> /bin/busybox
+│   │   │   │   ├── lzcat -> /bin/busybox
+│   │   │   │   ├── lzma -> /bin/busybox
+│   │   │   │   ├── lzopcat -> /bin/busybox
+│   │   │   │   ├── md5sum -> /bin/busybox
+│   │   │   │   ├── mesg -> /bin/busybox
+│   │   │   │   ├── microcom -> /bin/busybox
+│   │   │   │   ├── mkfifo -> /bin/busybox
+│   │   │   │   ├── mkpasswd -> /bin/busybox
+│   │   │   │   ├── nc -> /bin/busybox
+│   │   │   │   ├── nl -> /bin/busybox
+│   │   │   │   ├── nmeter -> /bin/busybox
+│   │   │   │   ├── nohup -> /bin/busybox
+│   │   │   │   ├── nproc -> /bin/busybox
+│   │   │   │   ├── nsenter -> /bin/busybox
+│   │   │   │   ├── nslookup -> /bin/busybox
+│   │   │   │   ├── od -> /bin/busybox
+│   │   │   │   ├── openvt -> /bin/busybox
+│   │   │   │   ├── passwd -> /bin/busybox
+│   │   │   │   ├── paste -> /bin/busybox
+│   │   │   │   ├── pgrep -> /bin/busybox
+│   │   │   │   ├── pkill -> /bin/busybox
+│   │   │   │   ├── pmap -> /bin/busybox
+│   │   │   │   ├── printf -> /bin/busybox
+│   │   │   │   ├── pscan -> /bin/busybox
+│   │   │   │   ├── pstree -> /bin/busybox
+│   │   │   │   ├── pwdx -> /bin/busybox
+│   │   │   │   ├── readlink -> /bin/busybox
+│   │   │   │   ├── realpath -> /bin/busybox
+│   │   │   │   ├── renice -> /bin/busybox
+│   │   │   │   ├── reset -> /bin/busybox
+│   │   │   │   ├── resize -> /bin/busybox
+│   │   │   │   ├── scanelf
+│   │   │   │   ├── seq -> /bin/busybox
+│   │   │   │   ├── setkeycodes -> /bin/busybox
+│   │   │   │   ├── setsid -> /bin/busybox
+│   │   │   │   ├── sha1sum -> /bin/busybox
+│   │   │   │   ├── sha256sum -> /bin/busybox
+│   │   │   │   ├── sha3sum -> /bin/busybox
+│   │   │   │   ├── sha512sum -> /bin/busybox
+│   │   │   │   ├── showkey -> /bin/busybox
+│   │   │   │   ├── shred -> /bin/busybox
+│   │   │   │   ├── shuf -> /bin/busybox
+│   │   │   │   ├── sort -> /bin/busybox
+│   │   │   │   ├── split -> /bin/busybox
+│   │   │   │   ├── ssl_client
+│   │   │   │   ├── strings -> /bin/busybox
+│   │   │   │   ├── sum -> /bin/busybox
+│   │   │   │   ├── tac -> /bin/busybox
+│   │   │   │   ├── tail -> /bin/busybox
+│   │   │   │   ├── tee -> /bin/busybox
+│   │   │   │   ├── test -> /bin/busybox
+│   │   │   │   ├── time -> /bin/busybox
+│   │   │   │   ├── timeout -> /bin/busybox
+│   │   │   │   ├── top -> /bin/busybox
+│   │   │   │   ├── tr -> /bin/busybox
+│   │   │   │   ├── traceroute -> /bin/busybox
+│   │   │   │   ├── traceroute6 -> /bin/busybox
+│   │   │   │   ├── tree -> /bin/busybox
+│   │   │   │   ├── truncate -> /bin/busybox
+│   │   │   │   ├── tty -> /bin/busybox
+│   │   │   │   ├── ttysize -> /bin/busybox
+│   │   │   │   ├── udhcpc6 -> /bin/busybox
+│   │   │   │   ├── unexpand -> /bin/busybox
+│   │   │   │   ├── uniq -> /bin/busybox
+│   │   │   │   ├── unix2dos -> /bin/busybox
+│   │   │   │   ├── unlink -> /bin/busybox
+│   │   │   │   ├── unlzma -> /bin/busybox
+│   │   │   │   ├── unlzop -> /bin/busybox
+│   │   │   │   ├── unshare -> /bin/busybox
+│   │   │   │   ├── unxz -> /bin/busybox
+│   │   │   │   ├── unzip -> /bin/busybox
+│   │   │   │   ├── uptime -> /bin/busybox
+│   │   │   │   ├── uudecode -> /bin/busybox
+│   │   │   │   ├── uuencode -> /bin/busybox
+│   │   │   │   ├── vi -> /bin/busybox
+│   │   │   │   ├── vlock -> /bin/busybox
+│   │   │   │   ├── volname -> /bin/busybox
+│   │   │   │   ├── wc -> /bin/busybox
+│   │   │   │   ├── wget -> /bin/busybox
+│   │   │   │   ├── which -> /bin/busybox
+│   │   │   │   ├── who -> /bin/busybox
+│   │   │   │   ├── whoami -> /bin/busybox
+│   │   │   │   ├── whois -> /bin/busybox
+│   │   │   │   ├── xargs -> /bin/busybox
+│   │   │   │   ├── xxd -> /bin/busybox
+│   │   │   │   ├── xzcat -> /bin/busybox
+│   │   │   │   └── yes -> /bin/busybox
+│   │   │   ├── lib
+│   │   │   │   ├── engines-3
+│   │   │   │   │   ├── afalg.so
+│   │   │   │   │   ├── capi.so
+│   │   │   │   │   ├── loader_attic.so
+│   │   │   │   │   └── padlock.so
+│   │   │   │   ├── libapk.so.2.14.0
+│   │   │   │   ├── libcrypto.so.3
+│   │   │   │   ├── libssl.so.3
+│   │   │   │   ├── libz.so.1 -> libz.so.1.3.1
+│   │   │   │   ├── libz.so.1.3.1
+│   │   │   │   ├── modules-load.d
+│   │   │   │   ├── os-release
+│   │   │   │   ├── ossl-modules
+│   │   │   │   │   └── legacy.so
+│   │   │   │   └── sysctl.d
+│   │   │   │       └── 00-alpine.conf
+│   │   │   ├── local
+│   │   │   │   ├── bin
+│   │   │   │   ├── lib
+│   │   │   │   └── share
+│   │   │   ├── sbin
+│   │   │   │   ├── add-shell -> /bin/busybox
+│   │   │   │   ├── addgroup -> /bin/busybox
+│   │   │   │   ├── adduser -> /bin/busybox
+│   │   │   │   ├── arping -> /bin/busybox
+│   │   │   │   ├── brctl -> /bin/busybox
+│   │   │   │   ├── chpasswd -> /bin/busybox
+│   │   │   │   ├── chroot -> /bin/busybox
+│   │   │   │   ├── crond -> /bin/busybox
+│   │   │   │   ├── delgroup -> /bin/busybox
+│   │   │   │   ├── deluser -> /bin/busybox
+│   │   │   │   ├── ether-wake -> /bin/busybox
+│   │   │   │   ├── fbset -> /bin/busybox
+│   │   │   │   ├── killall5 -> /bin/busybox
+│   │   │   │   ├── loadfont -> /bin/busybox
+│   │   │   │   ├── nanddump -> /bin/busybox
+│   │   │   │   ├── nandwrite -> /bin/busybox
+│   │   │   │   ├── nbd-client -> /bin/busybox
+│   │   │   │   ├── ntpd -> /bin/busybox
+│   │   │   │   ├── partprobe -> /bin/busybox
+│   │   │   │   ├── rdate -> /bin/busybox
+│   │   │   │   ├── rdev -> /bin/busybox
+│   │   │   │   ├── readahead -> /bin/busybox
+│   │   │   │   ├── remove-shell -> /bin/busybox
+│   │   │   │   ├── rfkill -> /bin/busybox
+│   │   │   │   ├── sendmail -> /bin/busybox
+│   │   │   │   ├── setfont -> /bin/busybox
+│   │   │   │   └── setlogcons -> /bin/busybox
+│   │   │   └── share
+│   │   │       ├── apk
+│   │   │       │   └── keys
+│   │   │       │       ├── aarch64
+│   │   │       │       │   ├── alpine-devel@lists.alpinelinux.org-58199dcc.rsa.pub -> ../alpine-devel@lists.alpinelinux.org-58199dcc.rsa.pub
+│   │   │       │       │   └── alpine-devel@lists.alpinelinux.org-616ae350.rsa.pub -> ../alpine-devel@lists.alpinelinux.org-616ae350.rsa.pub
+│   │   │       │       ├── alpine-devel@lists.alpinelinux.org-4a6a0840.rsa.pub
+│   │   │       │       ├── alpine-devel@lists.alpinelinux.org-5243ef4b.rsa.pub
+│   │   │       │       ├── alpine-devel@lists.alpinelinux.org-524d27bb.rsa.pub
+│   │   │       │       ├── alpine-devel@lists.alpinelinux.org-5261cecb.rsa.pub
+│   │   │       │       ├── alpine-devel@lists.alpinelinux.org-58199dcc.rsa.pub
+│   │   │       │       ├── alpine-devel@lists.alpinelinux.org-58cbb476.rsa.pub
+│   │   │       │       ├── alpine-devel@lists.alpinelinux.org-58e4f17d.rsa.pub
+│   │   │       │       ├── alpine-devel@lists.alpinelinux.org-5e69ca50.rsa.pub
+│   │   │       │       ├── alpine-devel@lists.alpinelinux.org-60ac2099.rsa.pub
+│   │   │       │       ├── alpine-devel@lists.alpinelinux.org-6165ee59.rsa.pub
+│   │   │       │       ├── alpine-devel@lists.alpinelinux.org-61666e3f.rsa.pub
+│   │   │       │       ├── alpine-devel@lists.alpinelinux.org-616a9724.rsa.pub
+│   │   │       │       ├── alpine-devel@lists.alpinelinux.org-616abc23.rsa.pub
+│   │   │       │       ├── alpine-devel@lists.alpinelinux.org-616ac3bc.rsa.pub
+│   │   │       │       ├── alpine-devel@lists.alpinelinux.org-616adfeb.rsa.pub
+│   │   │       │       ├── alpine-devel@lists.alpinelinux.org-616ae350.rsa.pub
+│   │   │       │       ├── alpine-devel@lists.alpinelinux.org-616db30d.rsa.pub
+│   │   │       │       ├── alpine-devel@lists.alpinelinux.org-66ba20fe.rsa.pub
+│   │   │       │       ├── armhf
+│   │   │       │       │   ├── alpine-devel@lists.alpinelinux.org-524d27bb.rsa.pub -> ../alpine-devel@lists.alpinelinux.org-524d27bb.rsa.pub
+│   │   │       │       │   └── alpine-devel@lists.alpinelinux.org-616a9724.rsa.pub -> ../alpine-devel@lists.alpinelinux.org-616a9724.rsa.pub
+│   │   │       │       ├── armv7
+│   │   │       │       │   ├── alpine-devel@lists.alpinelinux.org-524d27bb.rsa.pub -> ../alpine-devel@lists.alpinelinux.org-524d27bb.rsa.pub
+│   │   │       │       │   └── alpine-devel@lists.alpinelinux.org-616adfeb.rsa.pub -> ../alpine-devel@lists.alpinelinux.org-616adfeb.rsa.pub
+│   │   │       │       ├── loongarch64
+│   │   │       │       │   └── alpine-devel@lists.alpinelinux.org-66ba20fe.rsa.pub -> ../alpine-devel@lists.alpinelinux.org-66ba20fe.rsa.pub
+│   │   │       │       ├── mips64
+│   │   │       │       │   └── alpine-devel@lists.alpinelinux.org-5e69ca50.rsa.pub -> ../alpine-devel@lists.alpinelinux.org-5e69ca50.rsa.pub
+│   │   │       │       ├── ppc64le
+│   │   │       │       │   ├── alpine-devel@lists.alpinelinux.org-58cbb476.rsa.pub -> ../alpine-devel@lists.alpinelinux.org-58cbb476.rsa.pub
+│   │   │       │       │   └── alpine-devel@lists.alpinelinux.org-616abc23.rsa.pub -> ../alpine-devel@lists.alpinelinux.org-616abc23.rsa.pub
+│   │   │       │       ├── riscv64
+│   │   │       │       │   ├── alpine-devel@lists.alpinelinux.org-60ac2099.rsa.pub -> ../alpine-devel@lists.alpinelinux.org-60ac2099.rsa.pub
+│   │   │       │       │   └── alpine-devel@lists.alpinelinux.org-616db30d.rsa.pub -> ../alpine-devel@lists.alpinelinux.org-616db30d.rsa.pub
+│   │   │       │       ├── s390x
+│   │   │       │       │   ├── alpine-devel@lists.alpinelinux.org-58e4f17d.rsa.pub -> ../alpine-devel@lists.alpinelinux.org-58e4f17d.rsa.pub
+│   │   │       │       │   └── alpine-devel@lists.alpinelinux.org-616ac3bc.rsa.pub -> ../alpine-devel@lists.alpinelinux.org-616ac3bc.rsa.pub
+│   │   │       │       ├── x86
+│   │   │       │       │   ├── alpine-devel@lists.alpinelinux.org-4a6a0840.rsa.pub -> ../alpine-devel@lists.alpinelinux.org-4a6a0840.rsa.pub
+│   │   │       │       │   ├── alpine-devel@lists.alpinelinux.org-5243ef4b.rsa.pub -> ../alpine-devel@lists.alpinelinux.org-5243ef4b.rsa.pub
+│   │   │       │       │   └── alpine-devel@lists.alpinelinux.org-61666e3f.rsa.pub -> ../alpine-devel@lists.alpinelinux.org-61666e3f.rsa.pub
+│   │   │       │       └── x86_64
+│   │   │       │           ├── alpine-devel@lists.alpinelinux.org-4a6a0840.rsa.pub -> ../alpine-devel@lists.alpinelinux.org-4a6a0840.rsa.pub
+│   │   │       │           ├── alpine-devel@lists.alpinelinux.org-5261cecb.rsa.pub -> ../alpine-devel@lists.alpinelinux.org-5261cecb.rsa.pub
+│   │   │       │           └── alpine-devel@lists.alpinelinux.org-6165ee59.rsa.pub -> ../alpine-devel@lists.alpinelinux.org-6165ee59.rsa.pub
+│   │   │       ├── man
+│   │   │       ├── misc
+│   │   │       └── udhcpc
+│   │   │           └── default.script
+│   │   └── var
+│   │       ├── cache
+│   │       │   ├── apk
+│   │       │   └── misc
+│   │       ├── empty
+│   │       ├── lib
+│   │       │   └── misc
+│   │       ├── local
+│   │       ├── lock -> ../run/lock
+│   │       ├── log
+│   │       ├── mail
+│   │       ├── opt
+│   │       ├── run -> ../run
+│   │       ├── spool
+│   │       │   ├── cron
+│   │       │   │   └── crontabs -> ../../../etc/crontabs
+│   │       │   └── mail -> ../mail
+│   │       └── tmp
+│   └── oci-layout
+└── alpine.tar
+```
 
 
 >userflag:
