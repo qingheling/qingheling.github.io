@@ -1,11 +1,12 @@
 ---
 title: LeetCode six-day复盘
 author: LingMj
-data: 2025-04-28
+data: 2025-05-10
 categories: [LeetCode]
 tags: [upload]
 description: 难度-Easy
 ---
+
 
 ## 第一题 多数元素
 
