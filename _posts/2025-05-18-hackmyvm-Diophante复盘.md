@@ -106,8 +106,11 @@ Nmap done: 1 IP address (1 host up) scanned in 35.36 seconds
 
 ![picture 30](../assets/images/a848e4183f61970d4af457e1c618b836ede99a20be1731d108a0432dcfc29691.png)  
 
+>这里停止
+>
 
 ## 提权
+
 ![picture 31](../assets/images/c9b3b1e75faf96e2e350c79e27ce87a0ef050e30a14aaee14ad80337c1184eaf.png)  
 ![picture 32](../assets/images/924b7339c88888a3576ba85ba85cabcc01ab891cb1058877fe038fe72b4ab03c.png)  
 ![picture 33](../assets/images/d9fc88081e01980fa1521c44d65422e49324e704cc4078d35ba19a4f8f382233.png)  
@@ -118,7 +121,7 @@ Nmap done: 1 IP address (1 host up) scanned in 35.36 seconds
 
 ![picture 35](../assets/images/c0a0ee76cb9f5d40977100ef8a405e9bc9c142023e9677ee6bf3eebf9f3b8387.png)  
 
->找到了
+>找到了doas内容
 >
 
 ```
