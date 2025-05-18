@@ -3,7 +3,7 @@ title: hackmyvm Diophante靶机复盘
 author: LingMj
 data: 2025-05-18
 categories: [hackmyvm]
-tags: [LFI, LD_PRELOAD, ping]
+tags: [LFI,LD_PRELOAD,ping]
 description: 难度-Hard
 ---
 
@@ -147,6 +147,8 @@ permit nopass sabine as leonard cmd /usr/bin/mutt
 ![picture 44](../assets/images/6f27e2154727cefe7f51477f58e6002785e28624e9602aba44645ee22c3b4152.png)  
 ![picture 45](../assets/images/f35026fb250dd9c3633e4e16e484fe067ce5e2379e81651a42968c29f2f94d27.png)  
 
+>好了结束了
+>
 
 
 >userflag:Thonirburarnlog
