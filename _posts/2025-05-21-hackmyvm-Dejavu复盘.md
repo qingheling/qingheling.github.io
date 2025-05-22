@@ -225,7 +225,6 @@ Nmap done: 1 IP address (1 host up) scanned in -28774.22 seconds
 
 ![picture 47](../assets/images/c9a9ba033382b14aa3ed6f896025afc3783f348a43de8e53e0cee50a66ce5cdc.png)  
 
-
 >好了，大佬的方案很有意思
 >
 
@@ -233,10 +232,6 @@ Nmap done: 1 IP address (1 host up) scanned in -28774.22 seconds
 >
 >rootflag:HMV{c62d75d636f66450980dca2c4a3457d8}
 >
-
-
-
-
 
 >这里感谢一下这台kali，劳苦功高，但是环境已经有很多地方坏掉我修不好了所以给他删了，给它记三等功
 >
