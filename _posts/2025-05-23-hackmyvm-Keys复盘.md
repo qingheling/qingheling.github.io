@@ -84,8 +84,6 @@ Nmap done: 1 IP address (1 host up) scanned in 17.54 seconds
 >好了
 >
 
-
-
 ## 提权
 
 ![picture 16](../assets/images/8bdf4397f1be2b1b5227abf8ef264d748a24932bd5569843e5a548c5c91f49cf.png)  
