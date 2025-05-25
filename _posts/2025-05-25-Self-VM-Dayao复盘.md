@@ -7,7 +7,6 @@ tags: [upload]
 description: 难度-Low
 ---
 
-
 ## 网段扫描
 ```
 root@LingMj:~# arp-scan -l
@@ -48,7 +47,6 @@ Nmap done: 1 IP address (1 host up) scanned in 23.97 seconds
 ## 获取webshell
 
 ![picture 3](../assets/images/e295d2324272a080e309b97d56a16ff7fe3f504da5edc0a3937ce4d112bafe39.png)  
-
 ![picture 0](../assets/images/80b6903a4f58e08e3c66757f9a8db34c2028b3b6b2e45ea2f5a51664ebb7e052.png)  
 ![picture 1](../assets/images/ca5f627ae6a07e637943607862fbf45b863293a343f196a9fb9b54804fc4bbc6.png)  
 ![picture 2](../assets/images/6fa2dc34d196a61c813ce820e42fea5c120158d692dab64300d63da839f19350.png)  
@@ -62,7 +60,6 @@ Nmap done: 1 IP address (1 host up) scanned in 23.97 seconds
 >
 
 ![picture 8](../assets/images/ac32dad8d942399866ec37af8ca009165e6677d19c65cfb4e1c144812126c553.png)  
-
 ![picture 5](../assets/images/20890b693a48afbbcac646f55687bb4323aa703eeff5fba155826cb84927767c.png)  
 ![picture 6](../assets/images/8e6574926b0431b0daefd4a45cf263d71da7462afabc591b79f2de134ce9679e.png)  
 ![picture 7](../assets/images/523b469fe32693a038dcabb9cb4a1442bcb788a4417947bb9c7a0e810c870a8c.png)  
