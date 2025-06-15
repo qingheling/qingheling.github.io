@@ -1,5 +1,5 @@
 ---
-title: VulNyx gc-0lib靶机复盘
+title: Self-VM gc-0lib靶机复盘
 author: LingMj
 data: 2025-04-30
 categories: [Self-VM]

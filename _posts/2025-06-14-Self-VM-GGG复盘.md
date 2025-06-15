@@ -1,5 +1,5 @@
 ---
-title: Self-VM Umz复盘
+title: Self-VM GGG复盘
 author: LingMj
 data: 2025-06-14
 categories: [Self-VM]
