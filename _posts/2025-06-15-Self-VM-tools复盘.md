@@ -127,7 +127,6 @@ Nmap done: 1 IP address (1 host up) scanned in 28.80 seconds
 
 >可以看的需要不断的输入回现，我有想过是输入多少次直接返回密码，然后问了gtp，很明显gtp是大傻子给不了我答案🤔，所以我打算自己写一个，当然测试这个被我跳过了因为写的时间太长
 >
-
 >学习写的地址也是有的：https://pwntools-docs-zh.readthedocs.io/zh-cn/dev/，记得安装pwntools
 >
 
