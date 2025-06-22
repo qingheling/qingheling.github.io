@@ -1,7 +1,7 @@
 ---
 title: Self-VM Tools2复盘
 author: LingMj
-data: 2025-05-04
+data: 2025-06-21
 categories: [Self-VM]
 tags: [upload]
 description: 难度-Low
