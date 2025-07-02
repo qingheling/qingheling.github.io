@@ -342,4 +342,122 @@ class Solution:
 >主要是先判断是否为有环，有环情况入口就是快慢指针相遇的位置，所以当第一次相遇时break此时我们得到的节点是为尾节点，慢指针从头开始进行当再次相遇的时候就说入口，此时指针第二次都是移动一格
 >
 
+## 第八题 链表中倒数最后k个结点
+
+![picture 6](../assets/images/e93b851e856914058567fd3b4a6f74c86686be6b47a77162e3f1f147fede684e.png)  
+
+
+```
+# class ListNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+#
+# 代码中的类名、方法名、参数名已经指定，请勿修改，直接返回方法规定的值即可
+#
+# 
+# @param pHead ListNode类 
+# @param k int整型 
+# @return ListNode类
+#
+class Solution:
+    def FindKthToTail(self , pHead: ListNode, k: int) -> ListNode:
+        # write code here
+        if k <= 0 or not pHead:
+            return None
+        
+        fast = slow = pHead
+
+        for _ in range(k):
+            if not fast:
+                return None
+            fast = fast.next
+        
+        while fast:
+            fast = fast.next
+            slow = slow.next
+
+        return slow
+```
+
+>这个的话先看看k值和链表是否为空是直接none，还有快指针在移动k格的时候是否为空是也是none，最后当快指针为null时候代表指针已经移动完成，接着输出慢指针链表就是要的答案
+>
+
+## 第九题 删除链表的倒数第n个节点
+
+![picture 7](../assets/images/f37b40ed1fc4d8a8c25920ed2cb4395113621dddb544854e51701196ca1d4cc1.png)  
+
+
+```
+# class ListNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+#
+# 代码中的类名、方法名、参数名已经指定，请勿修改，直接返回方法规定的值即可
+#
+# 
+# @param head ListNode类 
+# @param n int整型 
+# @return ListNode类
+#
+class Solution:
+    def removeNthFromEnd(self , head: ListNode, n: int) -> ListNode:
+        # write code here
+
+        dummy = ListNode(0)
+        dummy.next = head
+
+        fast = head
+        slow = dummy
+
+        for _ in range(n):
+            fast = fast.next
+        
+        while fast:
+            fast = fast.next
+            slow = slow.next
+        slow.next = slow.next.next
+
+        return dummy.next
+```
+
+>这个的话就是先定义一个新链表用于输出，慢指针是新链表，然后和找倒是节点一样的方案利用快指针然后使用慢指针的下一个节点接到下下个就等于删除了那个节点
+>
+
+## 第10道 两个链表的第一个公共结点
+
+![picture 8](../assets/images/a863d659805cc8cc79e0c80cda30a3fe030d8db54cdbfd4fe8f97888ed367ec8.png)  
+
+```
+import re
+# class ListNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+
+#
+# 
+# @param pHead1 ListNode类 
+# @param pHead2 ListNode类 
+# @return ListNode类
+#
+class Solution:
+    def FindFirstCommonNode(self , pHead1 , pHead2 ):
+        # write code here
+        if not pHead1 or not pHead2:
+            return None
+        
+        p1 = pHead1
+        p2 = pHead2
+
+        while p1 != p2:
+            p1 = p1.next if p1 else pHead2
+            p2 = p2.next if p2 else pHead1
+
+        return p1
+```
+
+>这个的话就是设计这两个指针是否相同，在移动的时候判断指针是不是为空是则变成另外一个链表
+>
 
