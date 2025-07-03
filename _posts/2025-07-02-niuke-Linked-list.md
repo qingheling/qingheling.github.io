@@ -425,7 +425,7 @@ class Solution:
 >这个的话就是先定义一个新链表用于输出，慢指针是新链表，然后和找倒是节点一样的方案利用快指针然后使用慢指针的下一个节点接到下下个就等于删除了那个节点
 >
 
-## 第10道 两个链表的第一个公共结点
+## 第十道 两个链表的第一个公共结点
 
 ![picture 8](../assets/images/a863d659805cc8cc79e0c80cda30a3fe030d8db54cdbfd4fe8f97888ed367ec8.png)  
 
@@ -459,5 +459,379 @@ class Solution:
 ```
 
 >这个的话就是设计这两个指针是否相同，在移动的时候判断指针是不是为空是则变成另外一个链表
+>
+
+## 第十一道 链表相加(二)
+
+![picture 9](../assets/images/abdea01c2051264bdeb48236ca2121ea8d7096a9f2f1f4200c365b4bc69db48d.png)  
+
+```
+# class ListNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+#
+# 代码中的类名、方法名、参数名已经指定，请勿修改，直接返回方法规定的值即可
+#
+# 
+# @param head1 ListNode类 
+# @param head2 ListNode类 
+# @return ListNode类
+#
+class Solution:
+    def addInList(self , head1: ListNode, head2: ListNode) -> ListNode:
+        # write code here
+        stack1 = []
+        stack2 = []
+
+        while head1:
+            stack1.append(head1.val)
+            head1 = head1.next
+        
+        while head2:
+            stack2.append(head2.val)
+            head2 = head2.next
+        
+        carry = 0
+        result = None
+
+        while stack1 or stack2 or carry:
+
+            num1 = stack1.pop() if stack1 else 0
+            num2 = stack2.pop() if stack2 else 0
+
+            total = num1 + num2 + carry
+            carry = total // 10
+            digit = total % 10
+
+            new_node = ListNode(digit)
+            new_node.next = result
+            result = new_node
+
+        return result
+```
+
+>先创建2个栈用于存储当前位值，循环把链表值压入栈，设置结果和进位值，循环当所有值都位NULL，carry取进位值，digit取余值，将余值已链表形式存储在新链表上不断把链表节点赋予result，最后输出
+>
+
+
+## 第十二道 单链表的排序
+
+![picture 10](../assets/images/234b29094f74619d6a21baccc0d4e7bb6a5f09c23bc900499d4c317607969489.png)  
+
+```
+# class ListNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+#
+# 代码中的类名、方法名、参数名已经指定，请勿修改，直接返回方法规定的值即可
+#
+# 
+# @param head ListNode类 the head node
+# @return ListNode类
+#
+class Solution:
+    def sortInList(self , head: ListNode) -> ListNode:
+        if not head or not head.next:
+            return head
+        
+        # 计算链表长度
+        length = 0
+        cur = head
+        while cur:
+            length += 1
+            cur = cur.next
+        
+        # 创建哑节点作为链表头前驱
+        dummy_head = ListNode(0)
+        dummy_head.next = head
+        step = 1  # 初始步长
+        
+        # 自底向上归并排序
+        while step < length:
+            pre = dummy_head  # 已合并部分的尾节点
+            cur = dummy_head.next  # 当前处理位置
+            
+            while cur:
+                # 1. 分割第一段子链表
+                head1 = cur
+                head2 = self.split(head1, step)
+                
+                # 2. 分割第二段子链表
+                next_head = None
+                if head2:
+                    next_head = self.split(head2, step)
+                
+                # 3. 合并两个子链表
+                merged_head, merged_tail = self.merge(head1, head2)
+                
+                # 4. 连接已合并部分
+                pre.next = merged_head
+                pre = merged_tail  # 更新尾节点
+                cur = next_head  # 处理剩余链表
+            
+            step *= 2  # 步长加倍
+        
+        return dummy_head.next
+    
+    def split(self, head, step):
+        """分割链表：从head开始取step个节点，返回下段头节点"""
+        if not head:
+            return None
+        
+        # 遍历到step位置
+        for _ in range(1, step):
+            if head.next:
+                head = head.next
+            else:
+                break
+        
+        # 保存下一段头节点并断开链表
+        next_head = head.next
+        head.next = None
+        return next_head
+    
+    def merge(self, l1, l2):
+        """合并两个有序链表，返回头节点和尾节点"""
+        dummy_merge = ListNode(0)  # 合并用哑节点
+        tail = dummy_merge
+        
+        # 遍历两链表，按顺序合并
+        while l1 and l2:
+            if l1.val <= l2.val:
+                tail.next = l1
+                l1 = l1.next
+            else:
+                tail.next = l2
+                l2 = l2.next
+            tail = tail.next
+        
+        # 连接剩余部分
+        tail.next = l1 if l1 else l2
+        
+        # 找到实际尾节点
+        while tail.next:
+            tail = tail.next
+        
+        return dummy_merge.next, tail
+```
+
+>这个我觉得很难因为它使用归并排序多了好多步骤，思想的话设计一个链表结合函数按照顺序排列，不过要注意链表的head和tail头节点和尾节点，还有一个断开头节点的函数用于划分节点的，最后就是自上而下合并
+>
+
+## 第十三道 判断一个链表是否为回文结构
+
+![picture 11](../assets/images/d1f58228e4d6bce574059f1a6e734bb513f56e3df2abb36c05ebb3e16e1364a5.png)  
+
+
+```
+# class ListNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+#
+# 代码中的类名、方法名、参数名已经指定，请勿修改，直接返回方法规定的值即可
+#
+# 
+# @param head ListNode类 the head
+# @return bool布尔型
+#
+class Solution:
+    def isPail(self , head: ListNode) -> bool:
+        # write code here
+        if not head or not head.next:
+            return True
+        
+        slow = fast = head
+
+        while fast and fast.next:
+            slow = slow.next
+            fast = fast.next.next
+        
+        prev, curr = None, slow
+
+        while curr:
+            next_node = curr.next
+            curr.next = prev
+            prev = curr
+            curr = next_node
+        reverse_head = prev
+
+        front, back = head, reverse_head
+        result = True
+
+        while back:
+            if back.val != front.val:
+                result = False
+                break
+            front = front.next
+            back = back.next
+        
+        prev, curr = None, reverse_head
+        while curr:
+            next_node = curr.next
+            curr.next = prev
+            prev = head
+            curr = next_node
+        slow.next = prev
+
+        return result
+```
+
+>这道题是先判断是否为空如果为空或者1都是回文直接true，下面定义快慢指针反转链表根据反转链表和原链表进行判断正序和逆序读结果相同为回文，当快指针到达末尾时，慢指针位于中点（奇数为中间，偶数为中间偏右），最后把链表反转回来即可
+>
+
+```
+# class ListNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+#
+# 代码中的类名、方法名、参数名已经指定，请勿修改，直接返回方法规定的值即可
+#
+# 
+# @param head ListNode类 the head
+# @return bool布尔型
+#
+class Solution:
+    def isPail(self , head: ListNode) -> bool:
+        stack = []
+
+        slow = fast = head
+        while fast and fast.next:
+            stack.append(slow.val)
+            fast = fast.next.next
+            slow = slow.next
+        
+        if fast:
+            slow = slow.next
+
+        while slow:
+            if stack.pop() != slow.val:
+                return False
+            slow  = slow.next
+        
+        return True
+```
+
+>不反转的方案更简单，先定义一个栈，进行快慢指针移动当快指针走完，慢指针刚好到中间位置，然后慢指针移动值存入栈，处理奇数的情况，然后判断栈是否等于慢指针移动的值相同的话直接移动不然终止返回false
+>
+
+## 第十四道 链表的奇偶重排
+
+![picture 12](../assets/images/564cbc06b4f388a8b4fd52cf8f4af23f7bb104d8d795e4accdf236b653e646cd.png)  
+
+```
+import re
+# class ListNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+#
+# 代码中的类名、方法名、参数名已经指定，请勿修改，直接返回方法规定的值即可
+#
+# 
+# @param head ListNode类 
+# @return ListNode类
+#
+class Solution:
+    def oddEvenList(self , head: ListNode) -> ListNode:
+        # write code here
+        if not head or not head.next:
+            return head
+        
+        odd = head
+        even = head.next
+        evenhead = even
+
+        while even and even.next:
+            odd.next = even.next
+            odd = odd.next
+
+            even.next = odd.next
+            even = even.next
+        
+        odd.next = evenhead
+
+        return head
+```
+
+>从排的话就是3号位移动到2号位，5号位移动移动到4号位原被移动位踢掉然后把它加到从新拍好的奇链表
+>
+
+## 第十五道 删除有序链表中重复的元素-I
+
+![picture 13](../assets/images/88272a914b3acffc2d078478a7410720636f238ea812e4b01cd78e0a5dbfbf8c.png)  
+
+```
+# class ListNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+#
+# 代码中的类名、方法名、参数名已经指定，请勿修改，直接返回方法规定的值即可
+#
+# 
+# @param head ListNode类 
+# @return ListNode类
+#
+class Solution:
+    def deleteDuplicates(self , head: ListNode) -> ListNode:
+        # write code here
+        curr = head
+        while curr and curr.next:
+            if curr.val == curr.next.val:
+                curr.next = curr.next.next
+            else:
+                curr = curr.next
+        
+        return head
+```
+
+>这个很简单循环链表如果下一个等于当前直接跳过不断操作即可
+>
+
+## 第十六道 删除有序链表中重复的元素-II 
+
+![picture 14](../assets/images/ca18387f441e13a3db7a134d4d98a0a97f5ade56afc18cef69f745d69e561248.png) 
+
+```
+# class ListNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+#
+# 代码中的类名、方法名、参数名已经指定，请勿修改，直接返回方法规定的值即可
+#
+# 
+# @param head ListNode类 
+# @return ListNode类
+#
+class Solution:
+    def deleteDuplicates(self , head: ListNode) -> ListNode:
+        # write code here
+        dummy = ListNode(0)
+        dummy.next = head
+
+        prev = dummy
+        curr = head
+
+        while curr and curr.next:
+
+            if curr.val == curr.next.val:
+                while curr.next and curr.val == curr.next.val:
+                    curr = curr.next
+                
+                prev.next = curr.next
+            else:
+                prev = curr
+
+            curr = curr.next
+
+        return dummy.next
+```
+
+>这个也挺简单 定义新链表，不断看当前值是否等于下个值是一直跳，并且最后前缀移动道没有重复的节点开始
 >
 
