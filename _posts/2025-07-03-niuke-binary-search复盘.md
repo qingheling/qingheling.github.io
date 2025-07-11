@@ -109,7 +109,6 @@ class Solution:
 >这个的话就是将左节点为输出值，如果存在中位值小于下一个值向移动右否则不动输出
 >
 
-
 ## 第四题 数组中的逆序对
 
 ![picture 3](../assets/images/f605b7ef15997de2093c2cfba2f68c8e15df79b86f7dd76e75e1be7f8efbd707.png)  
@@ -176,7 +175,6 @@ class Solution:
 
 >这个的话就直接选做为最小进行缩小右边指针。
 >
-
 
 ## 第六题 比较版本号
 
