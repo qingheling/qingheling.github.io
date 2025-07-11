@@ -115,7 +115,6 @@ class Solution:
 
 ![图 3](../assets/images/5f4f11793298b109402b826d3adc3b87f8500a0aa1ac45176205c74dfce41638.png)  
 
-
 ```
 import queue
 # class TreeNode:
@@ -158,7 +157,6 @@ class Solution:
 
 >这的话主要需要处理数的高，有了树高就好解决了，这里用了个包来处理数高
 >
-
 
 ## 第五题 按之字形顺序打印二叉树
 
@@ -240,7 +238,6 @@ class Solution:
 >这个最大深度就是直接自动查找匹配然后找最大即可
 >
 
-
 ## 二叉树中和为某一值的路径(一)
 
 ![图 7](../assets/images/fe599062a8347777f8b303211e0fe402e7788d3770c7bd7b06ab44bc8a2c5035.png)  
@@ -279,7 +276,6 @@ class Solution:
 
 >这个和最大树差不多就是查左路径或者右路径是否满足不满足就false了
 >
-
 
 ## 二叉搜索树与双向链表
 
@@ -327,11 +323,9 @@ class Solution:
 >这个的话还是有点难度和绕的，先定义一个双向链表连接函数，return 返回2个值，定义链表左右的头和尾，初始化左的为尾，右为头，判断是否存在左右值，存在尾连接节点，返回值为头右相反这样函数调用实现双向链表
 >
 
-
 ## 对称的二叉树
 
 ![图 9](../assets/images/b5c70b4e03f48f658af76d6d4ac9d84a4042e10d2926694035b0ac6a957900c6.png)  
-
 
 ```
 from re import L
@@ -478,7 +472,6 @@ class Solution:
 >定义函数把树值存入到数组，然后判断左边值如果大于右边值则false其他情况为true
 >
 
-
 ## 判断是不是完全二叉树
 
 ![图 13](../assets/images/d16900d932afb730ac14a036a198058956fa34ccabc56de0f9faaa58e8bd2aa1.png)  
@@ -583,11 +576,9 @@ class Solution:
 >如果p和q小于当前节点说明节点在左节点上，p和q大于当前节点说明节点在右节点上，否则返回当前节点
 >
 
-
 ## 在二叉树中找到两个节点的最近公共祖先
 
 ![图 16](../assets/images/4f8b8645be25042546536fdffe76eb9d34403119e47fa746937da82e2576e473.png)  
-
 
 ```
 # class TreeNode:
@@ -658,7 +649,6 @@ class Solution:
 >这个先判断前序是否为0如果为0直接返回None，然后找到切入点，通过切入点找左右节点位置
 >
 
-
 ## 输出二叉树的右视图
 
 ![图 18](../assets/images/af927cfeade43cf7fcc86a6a38adfdfc7df1b2a207a21601fd353eee8a7265ad.png)  
@@ -687,6 +677,4 @@ class Solution:
 
 >跟重构差不多把树改数组即可，返回的话先返回右边最后返回左边 
 >
-
-
 

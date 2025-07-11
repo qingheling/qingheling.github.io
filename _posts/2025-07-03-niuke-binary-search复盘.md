@@ -42,7 +42,6 @@ class Solution:
 
 ![picture 1](../assets/images/3d4c7496cb0ea32fd871dd9dc117bae86a090348bf34a85da5890da785fe8834.png)  
 
-
 ```
 #
 # 代码中的类名、方法名、参数名已经指定，请勿修改，直接返回方法规定的值即可
