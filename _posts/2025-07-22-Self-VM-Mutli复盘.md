@@ -1,7 +1,7 @@
 ---
 title: Self-VM Mutli复盘
 author: LingMj
-data: 2025-0-22
+data: 2025-07-22
 categories: [Self-VM]
 tags: [upload]
 description: 难度-Hard

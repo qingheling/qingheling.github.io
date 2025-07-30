@@ -1,7 +1,7 @@
 ---
 title: Self-VM Exchange复盘
 author: LingMj
-data: 2025-05-04
+data: 2025-07-12
 categories: [Self-VM]
 tags: [upload]
 description: 难度-Medium
